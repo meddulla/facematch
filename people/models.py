@@ -1,3 +1,4 @@
+from aws.s3 import S3
 from django.db import models
 from django.utils.safestring import mark_safe
 from facematch.storage_backends import MissingStorage, UnidentifiedStorage
@@ -31,6 +32,11 @@ class MissingPerson(models.Model):
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
 
+    def delete(self, *args, **kwargs):
+        photo = "%s/%s" % (MissingStorage.location, self.photo)
+        super().delete(*args, **kwargs)
+        S3().delete_file(MissingStorage.bucket_name, file_name=photo)
+
     def __str__(self):
         return self.name
 
@@ -50,6 +56,11 @@ class UnidentifiedPerson(models.Model):
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
+
+    def delete(self, *args, **kwargs):
+        photo = "%s/%s" % (UnidentifiedStorage.location, self.photo)
+        super().delete(*args, **kwargs)
+        S3().delete_file(UnidentifiedStorage.bucket_name, file_name=photo)
 
     def __str__(self):
         return self.code
