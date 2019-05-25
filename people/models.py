@@ -18,6 +18,7 @@ CATEGORIES = (
 
 class MissingPerson(models.Model):
     name = models.CharField(max_length=400, default=None, null=True)
+    code = models.CharField(max_length=400, default=None, null=True)
     gender = models.CharField(
         max_length=2,
         choices=GENDERS,
