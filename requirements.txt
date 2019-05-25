@@ -1,6 +1,7 @@
 boto3==1.9.156
 botocore==1.12.156
 Django==2.2.1
+django-storages==1.7.1
 docutils==0.14
 jmespath==0.9.4
 Pillow==6.0.0
