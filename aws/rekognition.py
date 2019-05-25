@@ -1,5 +1,6 @@
 import boto3
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +18,7 @@ class Collection(Rekognition):
 
     def create_collection(self, collection_id=None):
         collection_id = collection_id or self.collection_id
-        response = self.client.createCollection(CollectionId=collection_id)
+        response = self.client.create_collection(CollectionId=collection_id)
         if response["StatusCode"] != 200:
             logger.error("Unable to create collection")
             return False
@@ -26,14 +27,17 @@ class Collection(Rekognition):
     def addFaceToCollection(self, bucket, photo_s3_path, collection_id=None):
         # TODO how to add multiple photos for same face?
         collection_id = collection_id or self.collection_id
+        logger.info("Adding face %s to collection %s" % (photo_s3_path, collection_id))
         response = self.client.index_faces(CollectionId=collection_id,
                                       Image={"S3Object": {"Bucket": bucket, "Name": photo_s3_path}},
                                       ExternalImageId=photo_s3_path,
                                       MaxFaces=1,
-                                      QualityFilters="AUTO",
+                                      QualityFilter="AUTO",
                                       DetectionAttributes=["ALL"])
 
-        if response["StatusCode"] != 200:
+        logger.debug("Response '%s'" % json.dumps(response))
+
+        if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
             logger.error("Unable to add face to collection")
             return False
         if not response["FaceRecords"]:
@@ -58,7 +62,8 @@ class Collection(Rekognition):
         # We have MaxFaces=1
         face = response["FaceRecords"][0]
         face_id = face["Face"]["FaceId"]
-        location = face["Face"]["FaceId"]["BoundingBox"]
+        location = face["Face"]["BoundingBox"]
+        logger.info("Added face %s to collection %s" % (photo_s3_path, collection_id))
         return dict(indexed=(dict(face_id=face_id, bounding_box=location)), unindexed=unindexed)
 
     def search_faces(self, face_id, threshold=80, max_faces=2, collection_id=None):

@@ -37,7 +37,9 @@ class S3():
 
     def upload_file(self, bucket_name, file_name, extra={}):
         bucket_location = self.s3.meta.client.get_bucket_location(Bucket=bucket_name)['LocationConstraint']
-        self.s3.Object(bucket_name, file_name).upload_file(Filename=file_name, ExtraArgs=extra)
+        key = file_name[file_name.rindex('/')+1:]
+        print(key)
+        self.s3.Object(bucket_name, key).upload_file(Filename=file_name, ExtraArgs=extra)
         object_url = "https://s3-{0}.amazonaws.com/{1}/{2}".format(
             bucket_location, bucket_name, file_name)
         return object_url

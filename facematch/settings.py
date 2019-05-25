@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -132,6 +133,14 @@ AWS_LOCATION = 'static'
 
 DEFAULT_FILE_STORAGE = 'facematch.storage_backends.MediaStorage'
 
+# REKOG_MISSING_COLLECTION = "aws:rekognition:eu-west-1:766872114323:collection/missing"
+REKOG_MISSING_COLLECTION = "missing"
+# REKOG_UNIDENTIFIED_COLLECTION = "aws:rekognition:eu-west-1:766872114323:collection/unidentified"
+REKOG_UNIDENTIFIED_COLLECTION = "unidentified"
+
+S3_MISSING_BUCKET ="face-match-missing"
+S3_UNIDENTIFIED_BUCKET ="face-match-unidentified"
+
 
 
 STATICFILES_DIRS = [
@@ -142,3 +151,32 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'text': {
+            'format': '%(asctime)s: %(levelname)s: PID=%(process)05d %(module)s: %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            "formatter": "text",
+            "stream": sys.stdout,
+        },
+    },
+    'loggers': {
+        "": {
+            "handlers": ["console"],
+            "level": "INFO",
+        },
+        'django': {
+            'handlers': ["console"],
+            'level': "WARN",
+            "propagate": False,
+        },
+    },
+}
