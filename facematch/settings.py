@@ -165,10 +165,18 @@ LOGGING = {
             "formatter": "text",
             "stream": sys.stdout,
         },
+        'logfile': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR + "logfile.log",
+            'maxBytes': 50000,
+            'backupCount': 2,
+            'formatter': 'text',
+        },
     },
     'loggers': {
         "": {
-            "handlers": ["console"],
+            "handlers": ["console", "logfile"],
             "level": "INFO",
         },
         'django': {
