@@ -133,10 +133,8 @@ AWS_LOCATION = 'static'
 
 DEFAULT_FILE_STORAGE = 'facematch.storage_backends.MediaStorage'
 
-# REKOG_MISSING_COLLECTION = "aws:rekognition:eu-west-1:766872114323:collection/missing"
-REKOG_MISSING_COLLECTION = "missing"
-# REKOG_UNIDENTIFIED_COLLECTION = "aws:rekognition:eu-west-1:766872114323:collection/unidentified"
-REKOG_UNIDENTIFIED_COLLECTION = "unidentified"
+# Input face must be in same collection as faces to compare against
+REKOG_FACEMATCH_COLLECTION = "facematch"
 
 S3_MISSING_BUCKET ="face-match-missing"
 S3_UNIDENTIFIED_BUCKET ="face-match-unidentified"

@@ -7,6 +7,12 @@ from .models import MissingPerson, UnidentifiedPerson, MissingFace, Unidentified
 logger = getLogger(__name__)
 
 
+class FaceMatchInline(admin.TabularInline):
+    model = FaceMatch
+    fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity')
+    readonly_fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box')
+    extra = 0
+
 class UnidentifiedPersonAdmin(admin.ModelAdmin):
     model = UnidentifiedPerson
     fields = ('code', 'gender', 'photo', 'photo_tag',)
@@ -18,6 +24,10 @@ class MissingPersonAdmin(admin.ModelAdmin):
     fields = ('code', 'name', 'photo', 'photo_tag',)
     readonly_fields = ('photo_tag',)
 
+    inlines = [
+        FaceMatchInline,
+    ]
+
 class MissingFaceAdmin(admin.ModelAdmin):
     model = MissingFace
     fields = ('person', 'photo', 'photo_tag',)
@@ -28,12 +38,21 @@ class UnidentifiedFaceAdmin(admin.ModelAdmin):
     fields = ('person','photo', 'photo_tag',)
     readonly_fields = ('photo_tag',)
 
+class FaceMatchAdmin(admin.ModelAdmin):
+    model = FaceMatch
+    fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box')
+    readonly_fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box')
+
+
+
+
+
 # Register your models here.
 admin.site.register(MissingPerson, MissingPersonAdmin)
 admin.site.register(MissingFace, MissingFaceAdmin)
 admin.site.register(UnidentifiedPerson, UnidentifiedPersonAdmin)
 admin.site.register(UnidentifiedFace, UnidentifiedFaceAdmin)
-admin.site.register(FaceMatch)
+admin.site.register(FaceMatch, FaceMatchAdmin)
 
 
 # admin.site.disable_action('delete_selected')

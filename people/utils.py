@@ -20,7 +20,7 @@ def process_unidentified(directory):
             image2.jog
     """
     bucket = settings.S3_UNIDENTIFIED_BUCKET
-    col_id = settings.REKOG_UNIDENTIFIED_COLLECTION
+    col_id = settings.REKOG_FACEMATCH_COLLECTION
     col = Collection(collection_id=col_id)
     s3 = S3()
 
@@ -75,7 +75,7 @@ def process_missing(directory):
             image2.jog
     """
     bucket = settings.S3_MISSING_BUCKET
-    col_id = settings.REKOG_MISSING_COLLECTION
+    col_id = settings.REKOG_FACEMATCH_COLLECTION
     col = Collection(collection_id=col_id)
     s3 = S3()
 

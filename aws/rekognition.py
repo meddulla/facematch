@@ -80,7 +80,9 @@ class Collection(Rekognition):
                                             FaceId=face_id,
                                             FaceMatchThreshold=threshold, # default in aws is > 80
                                             MaxFaces=max_faces)
-        if response["StatusCode"] != 200:
+        logger.info("Response '%s'" % json.dumps(response))
+
+        if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
             logger.error("Unable to search faces")
             return False
         matches = []

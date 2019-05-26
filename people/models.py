@@ -30,7 +30,7 @@ class MissingPerson(models.Model):
         url = "https://%s/%s" % (MissingStorage.custom_domain, self.photo)
         print(self.photo)
         print(url)
-        return mark_safe('<img src="%s" />' % url)
+        return mark_safe('<img src="%s" width="200px"/>' % url)
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
@@ -54,7 +54,7 @@ class UnidentifiedPerson(models.Model):
 
     def photo_tag(self):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, self.photo)
-        return mark_safe('<img src="%s" />' % url)
+        return mark_safe('<img src="%s" width="200px"/>' % url)
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
@@ -75,7 +75,7 @@ class MissingFace(models.Model):
 
     def photo_tag(self):
         url = "https://%s/%s" % (MissingStorage.custom_domain, self.photo)
-        return mark_safe('<img src="%s" />' % url)
+        return mark_safe('<img src="%s" width="200px"/>' % url)
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
@@ -93,7 +93,7 @@ class UnidentifiedFace(models.Model):
 
     def photo_tag(self):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, self.photo)
-        return mark_safe('<img src="%s" />' % url)
+        return mark_safe('<img src="%s" width="200px"/>' % url)
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
@@ -104,8 +104,23 @@ class UnidentifiedFace(models.Model):
 
 
 class FaceMatch(models.Model):
-    missing = models.ForeignKey(MissingFace, on_delete=models.CASCADE, related_name="face_id")
+    missing = models.ForeignKey(MissingFace, on_delete=models.CASCADE)
+    missing_person = models.ForeignKey(MissingPerson, on_delete=models.CASCADE)
+    bounding_box = models.TextField(default=None, null=True)
+    similarity = models.IntegerField(default=None, null=True)
     unidentified = models.ForeignKey(UnidentifiedFace, on_delete=models.CASCADE)
+
+    def missing_tag(self):
+        return self.missing.photo_tag()
+
+    missing_tag.short_description = 'Missing'
+    missing_tag.allow_tags = True
+
+    def unidentified_tag(self):
+        return self.unidentified.photo_tag()
+
+    unidentified_tag.short_description = 'Unidentified'
+    unidentified_tag.allow_tags = True
 
     class Meta:
         verbose_name_plural = 'Face Matches'
