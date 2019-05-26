@@ -115,6 +115,8 @@ class FaceMatch(models.Model):
     bounding_box = models.TextField(default=None, null=True)
     similarity = models.IntegerField(default=None, null=True)
     unidentified = models.ForeignKey(UnidentifiedFace, on_delete=models.CASCADE)
+    human_says_maybe = models.BooleanField(default=False)
+    human_verified = models.BooleanField(default=False)
 
     def missing_tag(self):
         return self.missing.photo_tag()
