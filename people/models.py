@@ -28,8 +28,6 @@ class MissingPerson(models.Model):
 
     def photo_tag(self):
         url = "https://%s/%s" % (MissingStorage.custom_domain, self.photo)
-        print(self.photo)
-        print(url)
         return mark_safe('<img src="%s" width="200px"/>' % url)
 
     photo_tag.short_description = 'Image'

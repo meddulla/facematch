@@ -37,7 +37,6 @@ def process_unidentified(directory):
 
             for root, subdirs, images in os.walk("%s/%s" % (directory, dir)):
                 logger.info("Processing images in %s" % dir)
-                print(images)
                 for img in images:
                     local_path = "%s/%s/%s" % (directory, dir, img)
                     if not person.photo:
@@ -92,7 +91,6 @@ def process_missing(directory):
 
             for root, subdirs, images in os.walk("%s/%s" % (directory, dir)):
                 logger.info("Processing images in %s" % dir)
-                print(images)
                 for img in images:
                     local_path = "%s/%s/%s" % (directory, dir, img)
                     if not person.photo:

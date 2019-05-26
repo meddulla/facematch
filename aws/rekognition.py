@@ -43,7 +43,7 @@ class Collection(Rekognition):
                                       QualityFilter="AUTO",
                                       DetectionAttributes=["ALL"])
 
-        logger.debug("Response '%s'" % json.dumps(response))
+        logger.info("Response '%s'" % json.dumps(response))
 
         if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
             logger.error("Unable to add face to collection")
@@ -61,9 +61,8 @@ class Collection(Rekognition):
             logger.warning("Unindexed faces present for %s" % photo_s3_path)
             unindexed = []
             for face in response["UnindexedFaces"]:
-                face_id = face["Face"]["FaceId"]
-                location = face["Face"]["FaceId"]["BoundingBox"]
-                unindexed.append(dict(face_id=face_id, bounding_box=location))
+                location = face["FaceDetail"]["BoundingBox"]
+                unindexed.append(dict(bounding_box=location))
         else:
             unindexed = None
 
