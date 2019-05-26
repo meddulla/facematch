@@ -72,6 +72,9 @@ class MissingFace(models.Model):
     bounding_box = models.TextField(default=None, null=True)
     person = models.ForeignKey(MissingPerson, on_delete=models.CASCADE)
     photo = models.ImageField(default=None, null=True, storage=MissingStorage())
+    is_face = models.BooleanField(default=True)
+    searched = models.BooleanField(default=False)
+    last_searched = models.DateTimeField(default=None, null=True)
 
     def photo_tag(self):
         url = "https://%s/%s" % (MissingStorage.custom_domain, self.photo)
@@ -89,6 +92,7 @@ class UnidentifiedFace(models.Model):
     id = models.UUIDField(primary_key=True) # rekog FaceId
     bounding_box = models.TextField(default=None, null=True)
     person = models.ForeignKey(UnidentifiedPerson, on_delete=models.CASCADE)
+    is_face = models.BooleanField(default=True)
     photo = models.ImageField(default=None, null=True, storage=UnidentifiedStorage())
 
     def photo_tag(self):
@@ -124,3 +128,4 @@ class FaceMatch(models.Model):
 
     class Meta:
         verbose_name_plural = 'Face Matches'
+        ordering = ("-id",)
