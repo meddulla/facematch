@@ -41,6 +41,6 @@ class Command(BaseCommand):
                     fm.bounding_box = bounding_box
                     fm.save()
                 except IntegrityError as e:
-                    # Probably a face in the missing group, not identified
-                    logger.error("Unable to save match - probably a missing face. Error: '%s'" % str(e))
+                    # Probably a face in the missing group, not unidentified
+                    logger.error("Unable to save match - probably a 'missing' face. Error: '%s'" % str(e))
 

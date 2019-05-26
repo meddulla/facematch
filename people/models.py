@@ -85,6 +85,8 @@ class MissingFace(models.Model):
         super().delete(*args, **kwargs)
         S3().delete_file(MissingStorage.bucket_name, file_name=str(self.photo))
 
+    class Meta:
+        ordering = ("person", "id")
 
 class UnidentifiedFace(models.Model):
     id = models.UUIDField(primary_key=True) # rekog FaceId
@@ -104,6 +106,8 @@ class UnidentifiedFace(models.Model):
         super().delete(*args, **kwargs)
         S3().delete_file(UnidentifiedStorage.bucket_name, file_name=str(self.photo))
 
+    class Meta:
+        ordering = ("person", "id")
 
 class FaceMatch(models.Model):
     missing = models.ForeignKey(MissingFace, on_delete=models.CASCADE)
