@@ -18,6 +18,8 @@ class UnidentifiedPersonAdmin(admin.ModelAdmin):
     fields = ('code', 'gender', 'photo', 'photo_tag',)
     readonly_fields = ('photo_tag',)
 
+    # TODO if not is face delete faceid from collection
+
 
 class MissingPersonAdmin(admin.ModelAdmin):
     model = MissingPerson
