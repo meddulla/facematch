@@ -24,6 +24,14 @@ class Collection(Rekognition):
             return False
         return response["CollectionArn"]
 
+    def delete_collection(self, collection_id=None):
+        collection_id = collection_id or self.collection_id
+        response=self.client.delete_collection(CollectionId=collection_id)
+        if response["StatusCode"] != 200:
+            logger.error("Unable to create collection")
+            return False
+        return True
+
     def addFaceToCollection(self, bucket, photo_s3_path, collection_id=None):
         # TODO how to add multiple photos for same face?
         collection_id = collection_id or self.collection_id
