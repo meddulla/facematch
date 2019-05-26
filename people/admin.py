@@ -30,12 +30,14 @@ class MissingPersonAdmin(admin.ModelAdmin):
 
 class MissingFaceAdmin(admin.ModelAdmin):
     model = MissingFace
-    fields = ('person', 'photo', 'photo_tag',)
+    list_display = ('id', 'is_face', 'person')
+    fields = ('person', 'photo', 'is_face', 'photo_tag',)
     readonly_fields = ('photo_tag',)
 
 class UnidentifiedFaceAdmin(admin.ModelAdmin):
     model = UnidentifiedFace
-    fields = ('person','photo', 'photo_tag',)
+    list_display = ('id', 'is_face', 'person')
+    fields = ('person','photo', 'is_face', 'photo_tag',)
     readonly_fields = ('photo_tag',)
 
 class FaceMatchAdmin(admin.ModelAdmin):
