@@ -1,4 +1,5 @@
 import os
+import uuid
 import logging
 import json
 
@@ -51,6 +52,8 @@ def process_unidentified(directory):
                         ret = col.addFaceToCollection(bucket=bucket, photo_s3_path=img)
                         if not ret:
                             logger.error("Unable to add face %s of %s" % (img, person.code))
+                            face = UnidentifiedFace(person=person, id=uuid.uuid4(), is_face=False, photo=img)
+                            face.save()
                             continue
                         face_id = ret["indexed"]["face_id"]
                         face, created = UnidentifiedFace.objects.get_or_create(id=face_id, person=person)
@@ -104,11 +107,14 @@ def process_missing(directory):
                         ret = col.addFaceToCollection(bucket=bucket, photo_s3_path=img)
                         if not ret:
                             logger.error("Unable to add face %s of %s" % (img, person.code))
+                            face = MissingFace(person=person, id=uuid.uuid4(), is_face=False, photo=img)
+                            face.save()
                             continue
                         face_id = ret["indexed"]["face_id"]
                         face, created = MissingFace.objects.get_or_create(person=person, id=face_id)
                         face.bounding_box = json.dumps(ret["indexed"]["bounding_box"])
                         face.photo = img
+                        face.is_person = True
                         face.save()
                         logger.info("Saved missing face %s" % face_id)
                     else:

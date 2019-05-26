@@ -3,6 +3,7 @@ from logging import getLogger
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from django.conf import settings
+from django.utils.timezone import now
 from people.models import MissingFace, UnidentifiedFace, FaceMatch
 from aws.rekognition import Collection
 
@@ -14,14 +15,18 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        missing_faces = MissingFace.objects.all()
+        missing_faces = MissingFace.objects.filter(searched=False, is_face=True)
         bucket = settings.S3_UNIDENTIFIED_BUCKET
         col_id = settings.REKOG_FACEMATCH_COLLECTION
         rekog = Collection(collection_id=col_id)
         for mface in missing_faces:
             logger.info("Processsing missing face %s" % mface.id)
             matches = rekog.search_faces(str(mface.id))
-            print(matches)
+            mface.searched = True
+            mface.last_searched = now()
+            mface.save()
+            if not matches:
+                logger.info("No match found for face %s" % mface.id)
             for match in matches:
                 unid_face =  match["face_id"]
                 logger.info("Creating match of face %s with unidentified %s" % (mface.id, unid_face))
