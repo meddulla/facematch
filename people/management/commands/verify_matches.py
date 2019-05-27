@@ -60,24 +60,32 @@ class Command(BaseCommand):
                     age_check = True
                 else:
                     match.case_info_reasons_non_match += "Age is not a match. "
+            else:
+                logger.info("No age")
 
             if unidentified_person.gender and missing_person.gender:
                 if unidentified_person.gender == missing_person.gender:
                     gender_check = True
                 else:
                     match.case_info_reasons_non_match += "Gender is not a match. "
+            else:
+                logger.info("No gender")
 
             if unidentified_person.ethnicity and missing_person.ethnicity:
                 if unidentified_person.ethnicity.lower().strip() in missing_person.ethnicity.lower().strip():
                     ethnicity_check = True
                 else:
                     match.case_info_reasons_non_match += "Ethnicity is not a match. "
+            else:
+                logger.info("No ethnicity")
 
             if missing_person.last_sighted and unidentified_person.date_found:
                 if missing_person.last_sighted < unidentified_person.date_found:
                     death_vs_last_sighting = True
                 else:
                     match.case_info_reasons_non_match += "Last sighting after date of death. "
+            else:
+                logger.info("No death_vs_last_sighting")
 
             if None not in [age_check, gender_check, ethnicity_check, death_vs_last_sighting]:
                 if age_check and gender_check and ethnicity_check and death_vs_last_sighting:

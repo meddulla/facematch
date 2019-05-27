@@ -144,6 +144,7 @@ class FaceMatch(models.Model):
     case_info_last_checked = models.DateTimeField(default=None, null=True)
     case_info_matches = models.BooleanField(default=False)
     case_info_reasons_non_match = models.TextField(default=None, null=True)
+    human_notes = models.TextField(default=None, null=True)
 
     def missing_tag(self):
         return self.missing.photo_tag()
