@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
 from django.conf import settings
-from django.utils.timezone import now
-from people.models import MissingFace, UnidentifiedFace, FaceMatch
+from people.models import MissingFace
 from people.utils import search_face
 from aws.rekognition import Collection
 

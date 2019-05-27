@@ -9,8 +9,10 @@ logger = getLogger(__name__)
 
 class FaceMatchInline(admin.TabularInline):
     model = FaceMatch
-    fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity')
-    readonly_fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box')
+    fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'human_verified',
+              'case_info_checked', 'case_info_reasons_non_match',)
+    readonly_fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box',
+                       'case_info_checked', 'case_info_reasons_non_match')
     extra = 0
 
 class UnidentifiedPersonAdmin(admin.ModelAdmin):

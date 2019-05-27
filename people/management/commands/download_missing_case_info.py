@@ -2,11 +2,8 @@
 from logging import getLogger
 import requests
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
-from django.conf import settings
 from django.utils.timezone import now
-from people.models import MissingPerson, UnidentifiedFace, FaceMatch
-from aws.rekognition import Collection
+from people.models import MissingPerson
 
 logger = getLogger(__name__)
 
