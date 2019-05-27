@@ -18,8 +18,8 @@ Find possible matches between NamUs missing and unidentified persons using Aws R
 
 #### Maybe tasks
 - [ ] Label non-faces photo using object detection api - how useful is this?
-    - [ ] If object is tattoo build tattoo recognizer and match?
-    - [ ] If object is watch build watch recognizer and match?
+    - [ ] If object is tattoo build tattoo recognizer (non-trivial) and match?
+    - [ ] If object is watch build watch recognizer (non-trivial) and match?
 
 ## Credits
 
