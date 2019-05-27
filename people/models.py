@@ -52,7 +52,7 @@ class UnidentifiedPerson(models.Model):
 
     def photo_tag(self):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, self.photo)
-        return mark_safe('<img src="%s" width="200px"/>' % url)
+        return mark_safe('<img src="%s" width="200px" alt="%s"/>' % (url, self.photo))
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
@@ -76,7 +76,7 @@ class MissingFace(models.Model):
 
     def photo_tag(self):
         url = "https://%s/%s" % (MissingStorage.custom_domain, self.photo)
-        return mark_safe('<img src="%s" width="200px"/>' % url)
+        return mark_safe('<img src="%s" width="200px" alt="%s"/>' % (url, self.photo))
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
@@ -84,6 +84,9 @@ class MissingFace(models.Model):
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
         S3().delete_file(MissingStorage.bucket_name, file_name=str(self.photo))
+
+    def __str__(self):
+        return "%s (missing case %s)" % (self.id, self.person.code)
 
     class Meta:
         ordering = ("person", "id")
@@ -97,7 +100,7 @@ class UnidentifiedFace(models.Model):
 
     def photo_tag(self):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, self.photo)
-        return mark_safe('<img src="%s" width="200px"/>' % url)
+        return mark_safe('<img src="%s" width="200px" alt="%s"/>' % (url, self.photo))
 
     photo_tag.short_description = 'Image'
     photo_tag.allow_tags = True
@@ -105,6 +108,9 @@ class UnidentifiedFace(models.Model):
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
         S3().delete_file(UnidentifiedStorage.bucket_name, file_name=str(self.photo))
+
+    def __str__(self):
+        return "%s (unidentified case %s)" % (self.id, self.person.code)
 
     class Meta:
         ordering = ("person", "id")
