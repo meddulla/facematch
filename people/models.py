@@ -26,12 +26,10 @@ class Person(models.Model):
         default='U',
     )
     name = models.CharField(max_length=400, default=None, null=True)
-    current_min_age = models.IntegerField(default=None, null=True)
-    current_max_age = models.IntegerField(default=None, null=True)
     ethnicity = models.CharField(max_length=400, default=None, null=True) # we only use the 1st one
-    last_sighted = models.DateTimeField(default=None, null=True)
     # control case info fields
     case_info_fetched = models.BooleanField(default=False)
+    has_case_info = models.BooleanField(default=False)
     last_fetched = models.DateTimeField(default=None, null=True)
 
 
@@ -47,10 +45,16 @@ class Person(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ("code",)
 
 
 class MissingPerson(Person):
     photo = models.ImageField(default=None, null=True, storage=MissingStorage())
+    missing_min_age = models.IntegerField(default=None, null=True)
+    missing_max_age = models.IntegerField(default=None, null=True)
+    current_min_age = models.IntegerField(default=None, null=True)
+    current_max_age = models.IntegerField(default=None, null=True)
+    last_sighted = models.DateField(default=None, null=True)
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
@@ -59,6 +63,12 @@ class MissingPerson(Person):
 
 class UnidentifiedPerson(Person):
     photo = models.ImageField(default=None, null=True, storage=UnidentifiedStorage())
+    est_min_age = models.IntegerField(default=None, null=True)
+    est_max_age = models.IntegerField(default=None, null=True)
+
+    def photo_tag(self):
+        url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, self.photo)
+        return mark_safe('<img src="%s" width="200px"/>' % url)
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)

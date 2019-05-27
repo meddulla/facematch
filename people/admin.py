@@ -15,7 +15,8 @@ class FaceMatchInline(admin.TabularInline):
 
 class UnidentifiedPersonAdmin(admin.ModelAdmin):
     model = UnidentifiedPerson
-    fields = ('code', 'gender', 'photo', 'photo_tag',)
+    list_display = ('code', 'name','has_case_info', 'last_fetched')
+    # fields = ('code', 'gender', 'photo', 'photo_tag',)
     readonly_fields = ('photo_tag',)
 
     # TODO if not is face delete faceid from collection
@@ -23,7 +24,8 @@ class UnidentifiedPersonAdmin(admin.ModelAdmin):
 
 class MissingPersonAdmin(admin.ModelAdmin):
     model = MissingPerson
-    fields = ('code', 'name', 'photo', 'photo_tag',)
+    # fields = ('code', 'name', 'photo', 'photo_tag',)
+    list_display = ('code', 'name','has_case_info', 'last_fetched')
     readonly_fields = ('photo_tag',)
 
     inlines = [
