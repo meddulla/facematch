@@ -15,6 +15,7 @@ CATEGORIES = (
     ('U', 'Unidentified'),
 )
 
+
 class Person(models.Model):
     code = models.CharField(max_length=400, default=None, null=True, unique=True)
     photo = models.ImageField(default=None, null=True)
@@ -90,6 +91,7 @@ class MissingFace(models.Model):
     class Meta:
         ordering = ("person", "id")
 
+
 class UnidentifiedFace(models.Model):
     id = models.UUIDField(primary_key=True) # rekog FaceId
     bounding_box = models.TextField(default=None, null=True)
@@ -113,6 +115,7 @@ class UnidentifiedFace(models.Model):
 
     class Meta:
         ordering = ("person", "id")
+
 
 class FaceMatch(models.Model):
     missing = models.ForeignKey(MissingFace, on_delete=models.CASCADE)
