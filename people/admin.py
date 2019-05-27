@@ -15,7 +15,7 @@ class FaceMatchInline(admin.TabularInline):
 
 class UnidentifiedPersonAdmin(admin.ModelAdmin):
     model = UnidentifiedPerson
-    list_display = ('code', 'name','has_case_info', 'last_fetched')
+    list_display = ('code', 'ethnicity', 'est_min_age', 'est_max_age', 'has_case_info', 'last_fetched')
     # fields = ('code', 'gender', 'photo', 'photo_tag',)
     readonly_fields = ('photo_tag',)
 

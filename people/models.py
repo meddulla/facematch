@@ -25,7 +25,6 @@ class Person(models.Model):
         choices=GENDERS,
         default='U',
     )
-    name = models.CharField(max_length=400, default=None, null=True)
     ethnicity = models.CharField(max_length=400, default=None, null=True) # we only use the 1st one
     # control case info fields
     case_info_fetched = models.BooleanField(default=False)
@@ -41,7 +40,7 @@ class Person(models.Model):
     photo_tag.allow_tags = True
 
     def __str__(self):
-        return self.name or self.code
+        return self.code
 
     class Meta:
         abstract = True
@@ -49,12 +48,16 @@ class Person(models.Model):
 
 
 class MissingPerson(Person):
+    name = models.CharField(max_length=400, default=None, null=True)
     photo = models.ImageField(default=None, null=True, storage=MissingStorage())
     missing_min_age = models.IntegerField(default=None, null=True)
     missing_max_age = models.IntegerField(default=None, null=True)
     current_min_age = models.IntegerField(default=None, null=True)
     current_max_age = models.IntegerField(default=None, null=True)
     last_sighted = models.DateField(default=None, null=True)
+
+    def __str__(self):
+        return self.name or self.code
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
