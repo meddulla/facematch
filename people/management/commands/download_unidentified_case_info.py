@@ -14,12 +14,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         unidentified_persons = UnidentifiedPerson.objects.filter(case_info_fetched=False)
+        logger.info("Processsing %s unidentified person cases" % len(unidentified_persons))
         for person in unidentified_persons:
-            logger.info("Processsing unidentified person %s" % person.code)
             self.sync_unidentified_case_info(person)
 
     def sync_unidentified_case_info(self, person):
         # curl -H Content-type:application/json https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/18174\?forReport\=false
+        logger.info("Processsing unidentified person %s" % person.code)
         headers = {'Content-type': 'application/json'}
         url = 'https://www.namus.gov/api/CaseSets/NamUs/UnidentifiedPersons/Cases/{case_id}?forReport=false'.format(case_id=person.code)
         r = requests.get(url, headers=headers)
