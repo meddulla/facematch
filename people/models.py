@@ -80,12 +80,22 @@ class UnidentifiedPerson(Person):
         S3().delete_file(UnidentifiedStorage.bucket_name, file_name=self.photo)
 
 
-class MissingFace(models.Model):
+
+class Face(models.Model):
     id = models.UUIDField(primary_key=True) # rekog FaceId
     bounding_box = models.TextField(default=None, null=True)
+    is_face = models.BooleanField(default=True)
+    in_collection = models.BooleanField(default=True) # in rekog collection
+
+    class Meta:
+        abstract = True
+        ordering = ("person", "id")
+
+
+class MissingFace(Face):
+    id = models.UUIDField(primary_key=True) # rekog FaceId
     person = models.ForeignKey(MissingPerson, on_delete=models.CASCADE)
     photo = models.ImageField(default=None, null=True, storage=MissingStorage())
-    is_face = models.BooleanField(default=True)
     searched = models.BooleanField(default=False)
     last_searched = models.DateTimeField(default=None, null=True)
 
@@ -107,11 +117,8 @@ class MissingFace(models.Model):
         ordering = ("person", "id")
 
 
-class UnidentifiedFace(models.Model):
-    id = models.UUIDField(primary_key=True) # rekog FaceId
-    bounding_box = models.TextField(default=None, null=True)
+class UnidentifiedFace(Face):
     person = models.ForeignKey(UnidentifiedPerson, on_delete=models.CASCADE)
-    is_face = models.BooleanField(default=True)
     photo = models.ImageField(default=None, null=True, storage=UnidentifiedStorage())
 
     def photo_tag(self):
