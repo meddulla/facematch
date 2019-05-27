@@ -29,7 +29,6 @@ class Command(BaseCommand):
 
         if r.status_code != requests.codes.ok:
             logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
-            person.case_info_fetched = True
             person.save()
             return
 
