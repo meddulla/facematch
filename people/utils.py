@@ -9,6 +9,7 @@ from .models import MissingPerson, MissingFace, UnidentifiedPerson, Unidentified
 from django.db.utils import IntegrityError
 from aws.s3 import S3
 from aws.rekognition import Collection
+from botocore.exceptions import ClientError
 
 
 logger = logging.getLogger(__name__)
@@ -51,18 +52,21 @@ def process_unidentified(directory):
                     face = UnidentifiedFace.objects.filter(photo=img, person=person).first()
 
                     if not face:
-                        ret = col.addFaceToCollection(bucket=bucket, photo_s3_path=img)
-                        if not ret:
-                            logger.error("Unable to add face %s of %s" % (img, person.code))
-                            face = UnidentifiedFace(person=person, id=uuid.uuid4(), is_face=False, photo=img)
+                        try:
+                            ret = col.addFaceToCollection(bucket=bucket, photo_s3_path=img)
+                            if not ret:
+                                logger.error("Unable to add face %s of %s" % (img, person.code))
+                                face = UnidentifiedFace(person=person, id=uuid.uuid4(), is_face=False, photo=img)
+                                face.save()
+                                continue
+                            face_id = ret["indexed"]["face_id"]
+                            face, created = UnidentifiedFace.objects.get_or_create(id=face_id, person=person)
+                            face.bounding_box = json.dumps(ret["indexed"]["bounding_box"])
+                            face.photo = img
                             face.save()
-                            continue
-                        face_id = ret["indexed"]["face_id"]
-                        face, created = UnidentifiedFace.objects.get_or_create(id=face_id, person=person)
-                        face.bounding_box = json.dumps(ret["indexed"]["bounding_box"])
-                        face.photo = img
-                        face.save()
-                        logger.info("Saved unidentified face %s" % face_id)
+                            logger.info("Saved unidentified face %s" % face_id)
+                        except ClientError as e:
+                            logger.error("Unable to index unidentified face %s. Error: '%s'" % (img, str(e)))
                     else:
                         logger.info("Already processed image %s, face %s" % (img, face.id))
 
@@ -106,19 +110,22 @@ def process_missing(directory):
                     face = MissingFace.objects.filter(photo=img, person=person).first()
 
                     if not face:
-                        ret = col.addFaceToCollection(bucket=bucket, photo_s3_path=img)
-                        if not ret:
-                            logger.error("Unable to add face %s of %s" % (img, person.code))
-                            face = MissingFace(person=person, id=uuid.uuid4(), is_face=False, photo=img)
+                        try:
+                            ret = col.addFaceToCollection(bucket=bucket, photo_s3_path=img)
+                            if not ret:
+                                logger.error("Unable to add face %s of %s" % (img, person.code))
+                                face = MissingFace(person=person, id=uuid.uuid4(), is_face=False, photo=img)
+                                face.save()
+                                continue
+                            face_id = ret["indexed"]["face_id"]
+                            face, created = MissingFace.objects.get_or_create(person=person, id=face_id)
+                            face.bounding_box = json.dumps(ret["indexed"]["bounding_box"])
+                            face.photo = img
+                            face.is_person = True
                             face.save()
-                            continue
-                        face_id = ret["indexed"]["face_id"]
-                        face, created = MissingFace.objects.get_or_create(person=person, id=face_id)
-                        face.bounding_box = json.dumps(ret["indexed"]["bounding_box"])
-                        face.photo = img
-                        face.is_person = True
-                        face.save()
-                        logger.info("Saved missing face %s" % face_id)
+                            logger.info("Saved missing face %s" % face_id)
+                        except ClientError as e:
+                            logger.error("Unable to index missing face %s. Error: '%s'" % (img, str(e)))
                     else:
                         logger.info("Already processed image %s, face %s" % (img, face.id))
 

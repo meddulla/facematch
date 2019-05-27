@@ -18,8 +18,8 @@ class Command(BaseCommand):
         parser.add_argument('--csv', dest="csv", help='csv')
 
     def handle(self, *args, **options):
-        directory = options["directory"] or "media/images-ds-1000/unidentified"
-        csv = options["csv"] or "media/unidentified-source-1000.csv"
+        directory = options["directory"] or "media/images/unidentified"
+        csv = options["csv"] or "unidentified-source-5000.csv"
 
         # tpl = "https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/9999/Images/68684/original"
 
