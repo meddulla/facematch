@@ -39,6 +39,8 @@ class Command(BaseCommand):
         person.gender = subject_desc["sex"]["name"][0]
         person.ethnicity = ", ".join([eth["name"] for eth in subject_desc["ethnicities"]])
         person.has_case_info = True
+        person.est_year_of_death_from = subject_desc["estimatedYearOfDeathFrom"]
+        person.date_found = info["circumstances"]["dateFound"]
         person.save()
         logger.info("Processed unidentified person %s" % person.code)
 

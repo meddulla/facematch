@@ -8,6 +8,8 @@ Find possible matches between NamUs missing and unidentified persons using Aws R
     - [X] missing case
     - [X] unidentified case
     - [ ] Use case info to filter out bad matches
+        - [X] on custom command
+        - [ ] on search command
 - [ ] Delete face id from collection when photo is marked as a non face (lower costs).
 - [ ] Public (non-admin) site
     - [ ] Will non-admins be able to verify cases? If so, we need to transofrm verification into a votes like feature.

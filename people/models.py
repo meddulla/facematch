@@ -68,6 +68,8 @@ class UnidentifiedPerson(Person):
     photo = models.ImageField(default=None, null=True, storage=UnidentifiedStorage())
     est_min_age = models.IntegerField(default=None, null=True)
     est_max_age = models.IntegerField(default=None, null=True)
+    est_year_of_death_from = models.IntegerField(default=None, null=True)
+    date_found = models.DateField(default=None, null=True)
 
     def photo_tag(self):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, self.photo)
@@ -138,6 +140,10 @@ class FaceMatch(models.Model):
     unidentified = models.ForeignKey(UnidentifiedFace, on_delete=models.CASCADE)
     human_says_maybe = models.BooleanField(default=False)
     human_verified = models.BooleanField(default=False)
+    case_info_checked = models.BooleanField(default=False)
+    case_info_last_checked = models.DateTimeField(default=None, null=True)
+    case_info_matches = models.BooleanField(default=False)
+    case_info_reasons_non_match = models.TextField(default=None, null=True)
 
     def missing_tag(self):
         return self.missing.photo_tag()
