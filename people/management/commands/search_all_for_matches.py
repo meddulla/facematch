@@ -5,6 +5,7 @@ from django.db.utils import IntegrityError
 from django.conf import settings
 from django.utils.timezone import now
 from people.models import MissingFace, UnidentifiedFace, FaceMatch
+from people.utils import verify_match
 from aws.rekognition import Collection
 
 logger = getLogger(__name__)
@@ -16,7 +17,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         missing_faces = MissingFace.objects.filter(searched=False, is_face=True)
-        bucket = settings.S3_UNIDENTIFIED_BUCKET
         col_id = settings.REKOG_FACEMATCH_COLLECTION
         rekog = Collection(collection_id=col_id)
         for mface in missing_faces:
@@ -40,6 +40,7 @@ class Command(BaseCommand):
                     fm.similarity = sim
                     fm.bounding_box = bounding_box
                     fm.save()
+                    verify_match(fm)
                 except IntegrityError as e:
                     # Probably a face in the missing group, not unidentified
                     logger.error("Unable to save match - probably a 'missing' face. Error: '%s'" % str(e))

@@ -73,6 +73,14 @@ class Collection(Rekognition):
         logger.info("Added face %s to collection %s" % (photo_s3_path, collection_id))
         return dict(indexed=(dict(face_id=face_id, bounding_box=location)), unindexed=unindexed)
 
+    def delete_faces(self, faces, collection_id=None):
+        collection_id = collection_id or self.collection_id
+        response = self.client.delete_faces(CollectionId=collection_id, FaceIds=faces)
+        if response["ResponseMetadata"]["HTTPStatusCode"] != 200:
+            logger.error("Unable to search faces")
+            return False
+        return True
+
     def search_faces(self, face_id, threshold=80, max_faces=2, collection_id=None):
         collection_id = collection_id or self.collection_id
         response = self.client.search_faces(CollectionId=collection_id,
