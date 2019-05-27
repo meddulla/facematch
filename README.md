@@ -16,6 +16,6 @@ Find possible matches between NamUs missing and unidentified persons using Aws R
 
 ## Credits
 
-Gerry Wong
+Gerry Hong
 
 Sofia Cardita
