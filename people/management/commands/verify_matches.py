@@ -26,6 +26,20 @@ class Command(BaseCommand):
                 match.case_info_matches = False
                 match.case_info_reasons_non_match = "Unidentified photo is not a face. "
                 match.save()
+                logger.info("Verified match %s of missing case %s. Reason: %s, matches: %s" % (match.id,
+                                                                                               match.missing_person.id,
+                                                                                               match.case_info_reasons_non_match,
+                                                                                               match.case_info_matches))
+                continue
+
+            if not match.missing.is_face:
+                match.case_info_matches = False
+                match.case_info_reasons_non_match = "Missing photo is not a face. "
+                match.save()
+                logger.info("Verified match %s of missing case %s. Reason: %s, matches: %s" % (match.id,
+                                                                                               match.missing_person.id,
+                                                                                               match.case_info_reasons_non_match,
+                                                                                               match.case_info_matches))
                 continue
 
             missing_person = match.missing_person
@@ -60,8 +74,6 @@ class Command(BaseCommand):
                     match.case_info_reasons_non_match += "Ethnicity is not a match. "
 
             if missing_person.last_sighted and unidentified_person.date_found:
-                print(missing_person.last_sighted)
-                print(unidentified_person.date_found)
                 if missing_person.last_sighted < unidentified_person.date_found:
                     death_vs_last_sighting = True
                 else:
@@ -74,6 +86,8 @@ class Command(BaseCommand):
                     match.case_info_matches = False
 
             match.save()
-            logger.info("Verified match %s of missing case %s. Matches: %s" % (match.id, match.missing_person.id,
-                                                                               match.case_info_matches))
+            logger.info("Verified match %s of missing case %s. Reason: %s, matches: %s." % (match.id,
+                                                                                           match.missing_person.id,
+                                                                                           match.case_info_reasons_non_match,
+                                                                                           match.case_info_matches))
 
