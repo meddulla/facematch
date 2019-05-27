@@ -18,7 +18,7 @@ class UnidentifiedPersonAdmin(admin.ModelAdmin):
     list_display = ('code', 'ethnicity', 'est_min_age', 'est_max_age', 'has_case_info', 'last_fetched')
     # fields = ('code', 'gender', 'photo', 'photo_tag',)
     readonly_fields = ('photo_tag',)
-    search_fields = ('code', 'name')
+    search_fields = ('code', )
     list_filter = ('has_case_info',)
 
     # TODO if not is face delete faceid from collection
@@ -50,13 +50,13 @@ class UnidentifiedFaceAdmin(admin.ModelAdmin):
 
 class FaceMatchAdmin(admin.ModelAdmin):
     model = FaceMatch
-    list_display = ('id', 'missing_person', 'similarity', 'human_verified', 'human_says_maybe')
-    fields = ('missing_person', 'missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box',
-              'human_verified', 'human_says_maybe')
+    list_display = ('id', 'missing_person', 'similarity', 'human_verified', 'human_says_maybe',  'case_info_checked', 'case_info_matches')
+    # fields = ('missing_person', 'missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box',
+    #           'human_verified', 'human_says_maybe')
     readonly_fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box')
 
     search_fields = ('missing_person__code', 'missing_person__name')
-    list_filter = ('human_verified', 'human_says_maybe')
+    list_filter = ('human_verified', 'human_says_maybe', 'case_info_checked', 'case_info_matches')
 
 
 
