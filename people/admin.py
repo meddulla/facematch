@@ -64,5 +64,5 @@ admin.site.register(FaceMatch, FaceMatchAdmin)
 
 
 # admin.site.disable_action('delete_selected')
-
+admin.site.site_header = "Face Match"
 admin.site.index_title = "Admin"
