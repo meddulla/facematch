@@ -14,6 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         missing_persons = MissingPerson.objects.filter(case_info_fetched=False)
+        logger.info("Processsing %s missing person cases" % len(missing_persons))
         for person in missing_persons:
             logger.info("Processsing missing person %s" % person.code)
             self.sync_missing_case_info(person)
@@ -28,7 +29,6 @@ class Command(BaseCommand):
         person.last_fetched = now()
 
         if r.status_code != requests.codes.ok:
-            print(r.text)
             logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
             person.save()
             return
@@ -38,14 +38,16 @@ class Command(BaseCommand):
         person.name = " ".join([subject.get("firstName", "").capitalize(),
                                 subject.get("middleName", "").capitalize(),
                                 subject.get("lastName", "").capitalize()]).strip()
-        person.current_min_age = subject["currentMinAge"]
-        person.current_max_age = subject["currentMaxAge"]
-        person.missing_min_age = subject["computedMissingMinAge"]
-        person.missing_max_age = subject["computedMissingMaxAge"]
+        person.current_min_age = subject.get("currentMinAge")
+        person.current_max_age = subject.get("currentMaxAge")
+        person.missing_min_age = subject.get("computedMissingMinAge")
+        person.missing_max_age = subject.get("computedMissingMaxAge")
         subject_desc = info["subjectDescription"]
         person.gender = subject_desc["sex"]["name"][0]
-        person.ethnicity = ", ".join([eth["name"] for eth in subject_desc["ethnicities"]])
-        person.last_sighted = info["sighting"]["date"]
+        if subject_desc.get("ethnicities"):
+            person.ethnicity = ", ".join([eth["name"] for eth in subject_desc.get("ethnicities")])
+        if info.get("sighting"):
+            person.last_sighted = info["sighting"]["date"]
         person.has_case_info = True
         person.save()
         logger.info("Processed missing person %s" % person.code)

@@ -15,6 +15,12 @@ CATEGORIES = (
     ('U', 'Unidentified'),
 )
 
+OBJECTS = (
+    ('-', '-'),
+    ('belt_buckle', 'belt buckle'),
+    ('tattoo', 'tattoo'),
+    ('watch', 'watch'),
+)
 
 class Person(models.Model):
     code = models.CharField(max_length=400, default=None, null=True, unique=True)
@@ -120,6 +126,12 @@ class MissingFace(Face):
 class UnidentifiedFace(Face):
     person = models.ForeignKey(UnidentifiedPerson, on_delete=models.CASCADE)
     photo = models.ImageField(default=None, null=True, storage=UnidentifiedStorage())
+    object_type = models.CharField(
+        max_length=100,
+        choices=OBJECTS,
+        default='-',
+        null=True,
+    )
 
     def photo_tag(self):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, self.photo)
@@ -151,7 +163,6 @@ class FaceMatch(models.Model):
     case_info_last_checked = models.DateTimeField(default=None, null=True)
     case_info_matches = models.BooleanField(default=False)
     case_info_reasons_non_match = models.TextField(default=None, null=True)
-    human_notes = models.TextField(default=None, null=True)
 
     def missing_tag(self):
         return self.missing.photo_tag()

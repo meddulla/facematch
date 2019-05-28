@@ -15,6 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         missing_faces = MissingFace.objects.filter(searched=False, is_face=True)
+        logger.info("Searching %s missing faces for matches " % len(missing_faces))
         col_id = settings.REKOG_FACEMATCH_COLLECTION
         rekog = Collection(collection_id=col_id)
         for mface in missing_faces:

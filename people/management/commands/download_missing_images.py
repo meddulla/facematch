@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = "./manage.py download_images"
+    help = "./manage.py download_missing_images"
 
     def add_arguments(self, parser):
         parser.add_argument('--directory', dest="directory", help='directory') #output
@@ -38,6 +38,7 @@ class Command(BaseCommand):
                 if os.path.exists(local_path):
                     logger.info("Skipped downloading from %s to %s" % (url, local_path))
                     continue
+                # TODO check ig img in db so we can avoid having the images locally
                 else:
                     if not os.path.exists(case_dir):
                         os.makedirs(case_dir)

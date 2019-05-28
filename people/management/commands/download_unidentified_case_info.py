@@ -35,13 +35,15 @@ class Command(BaseCommand):
 
         info = r.json()
         subject_desc = info["subjectDescription"]
-        person.est_min_age = subject_desc["estimatedAgeFrom"]
-        person.est_max_age = subject_desc["estimatedAgeTo"]
+        person.est_min_age = subject_desc.get("estimatedAgeFrom")
+        person.est_max_age = subject_desc.get("estimatedAgeTo")
         person.gender = subject_desc["sex"]["name"][0]
-        person.ethnicity = ", ".join([eth["name"] for eth in subject_desc["ethnicities"]])
+        if subject_desc.get("ethnicities"):
+            person.ethnicity = ", ".join([eth["name"] for eth in subject_desc["ethnicities"]])
         person.has_case_info = True
         person.est_year_of_death_from = subject_desc.get("estimatedYearOfDeathFrom")
-        person.date_found = info["circumstances"]["dateFound"]
+        if info.get("circumstances"):
+            person.date_found = info["circumstances"]["dateFound"]
         person.save()
         logger.info("Processed unidentified person %s" % person.code)
 

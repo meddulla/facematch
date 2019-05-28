@@ -17,7 +17,8 @@ class FaceMatchInline(admin.TabularInline):
 
 class UnidentifiedPersonAdmin(admin.ModelAdmin):
     model = UnidentifiedPerson
-    list_display = ('code', 'ethnicity', 'est_min_age', 'est_max_age', 'has_case_info', 'last_fetched')
+    list_display = ('code', 'ethnicity', 'est_min_age', 'est_max_age', 'has_case_info',
+                    'last_fetched')
     readonly_fields = ('photo_tag',)
     search_fields = ('code', )
     list_filter = ('has_case_info',)
@@ -39,16 +40,19 @@ class MissingFaceAdmin(admin.ModelAdmin):
     list_display = ('id', 'is_face', 'person', 'searched', 'last_searched')
     fields = ('person', 'photo', 'is_face', 'photo_tag', 'searched', 'last_searched')
     readonly_fields = ('photo_tag', 'searched', 'last_searched')
+    list_filter = ('is_face', 'searched')
 
 class UnidentifiedFaceAdmin(admin.ModelAdmin):
     model = UnidentifiedFace
     list_display = ('id', 'is_face', 'person')
-    fields = ('person','photo', 'is_face', 'photo_tag',)
-    readonly_fields = ('photo_tag',)
+    # fields = ('person','photo', 'is_face', 'photo_tag',)
+    readonly_fields = ('id', 'photo_tag', 'in_collection', 'bounding_box', 'photo')
+    list_filter = ('is_face',)
+
 
 class FaceMatchAdmin(admin.ModelAdmin):
     model = FaceMatch
-    list_display = ('id', 'missing_person', 'similarity', 'human_verified', 'human_says_maybe',  'case_info_checked',
+    list_display = ('id', 'missing_person', 'unidentified', 'similarity', 'human_verified', 'human_says_maybe',  'case_info_checked',
                     'case_info_matches')
     readonly_fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box',
                         'case_info_checked', 'case_info_reasons_non_match', 'case_info_matches', 'case_info_last_checked')
