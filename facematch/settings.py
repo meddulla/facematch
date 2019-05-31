@@ -142,7 +142,7 @@ S3_UNIDENTIFIED_BUCKET ="face-match-unidentified"
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'facematch/static'),
+    os.path.join(BASE_DIR, 'media'),
 ]
 
 # Static files (CSS, JavaScript, Images)
