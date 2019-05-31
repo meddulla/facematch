@@ -122,7 +122,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-media/
+media/images*
+media/images/*
 .env
 facematch.org
 aws/rekognition-dg.pdf
