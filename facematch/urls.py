@@ -19,6 +19,6 @@ from people import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('matches/', views.matches, name='matches'),
-    path('', views.search, name='search'),
+    path('', views.matches, name='matches'),
+    # path('', views.search, name='search'),
 ]

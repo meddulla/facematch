@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Face matches</h1>
-
+<h1>AI identified probable face matches</h1>
+<h5>In need of human verification</h5>
 <ul>
     {% for match in matches %}
     <li>Missing case {{match.missing_person.code}}: {{ match.missing_person }} -- unidentified case {{ match.unidentified.person.code }}</li>

@@ -179,3 +179,9 @@ class FaceMatch(models.Model):
     class Meta:
         verbose_name_plural = 'Face Matches'
         ordering = ("-id",)
+
+class RandomImage(models.Model):
+    description = models.CharField(max_length=255, blank=True)
+    image = models.ImageField(upload_to='images/random/%Y/%m/%d/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
