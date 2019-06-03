@@ -27,6 +27,9 @@ SECRET_KEY = '^y^c+qfn^a_k&34($0mxcjtjws#oi&-^+*2sex72$5fkdbrtw='
 DEBUG = True
 
 ALLOWED_HOSTS = []
+EC2_HOST = os.getenv("EC2_HOST", "ec2-52-30-226-109.eu-west-1.compute.amazonaws.com")
+if EC2_HOST:
+    ALLOWED_HOSTS.append(EC2_HOST)
 
 
 # Application definition
