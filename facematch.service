@@ -1,0 +1,21 @@
+[Unit]
+Description=Description
+After=syslog.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+# What process to start
+ExecStart=/home/webapper/facematch-venv/bin/uwsgi --ini /home/webapper/facematch/uwsgi.ini
+# What user chown to
+User=webapper
+# Working directory
+WorkingDirectory=/home/webapper/facematch
+Restart=always
+# Kill by SIGQUIT signal --- this is what asks wsgi to die nicely
+KillSignal=SIGQUIT
+# Notify type, in this type uwsgi will inform systemd that it is ready to handle requests
+Type=notify
+StandardError=syslog
+NotifyAccess=all
