@@ -7,7 +7,7 @@ WantedBy=multi-user.target
 
 [Service]
 # What process to start
-ExecStart=/home/webapper/facematch-venv/bin/uwsgi --ini /home/webapper/facematch/uwsgi.ini
+ExecStart=/home/webapper/facematch-venv/bin/python manage.py runserver
 # What user chown to
 User=webapper
 # Working directory
