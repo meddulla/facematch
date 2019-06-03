@@ -127,3 +127,5 @@ media/images/*
 .env
 facematch.org
 aws/rekognition-dg.pdf
+
+terraform/.terraform
