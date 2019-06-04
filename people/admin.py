@@ -54,7 +54,7 @@ class FaceMatchAdmin(admin.ModelAdmin):
     model = FaceMatch
     list_display = ('id', 'missing_person', 'unidentified', 'similarity', 'human_verified', 'human_says_maybe',  'case_info_checked',
                     'case_info_matches')
-    readonly_fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'bounding_box',
+    readonly_fields = ('missing', 'missing_tag', 'mnameus_link', 'unidentified', 'unidentified_tag', 'unameus_link', 'similarity', 'bounding_box',
                         'case_info_checked', 'case_info_reasons_non_match', 'case_info_matches', 'case_info_last_checked')
 
     search_fields = ('missing_person__code', 'missing_person__name')

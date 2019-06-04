@@ -176,6 +176,20 @@ class FaceMatch(models.Model):
     unidentified_tag.short_description = 'Unidentified'
     unidentified_tag.allow_tags = True
 
+    def mnameus_link(self):
+        url = "https://www.namus.gov/MissingPersons/Case#/%s/details" % self.missing_person.code
+        return mark_safe('<a href="%s" target="_blank">Missing NamUs Case</a>' % url)
+
+    mnameus_link.short_description = 'Missing NamUs'
+    mnameus_link.allow_tags = True
+
+    def unameus_link(self):
+        url = "https://www.namus.gov/UnidentifiedPersons/Case#/%s/details" % self.unidentified.person.code
+        return mark_safe('<a href="%s" target="_blank">Unidentified NamUs Case</a>' % url)
+
+    unameus_link.short_description = 'Unidentified NamUs'
+    unameus_link.allow_tags = True
+
     class Meta:
         verbose_name_plural = 'Face Matches'
         ordering = ("-id",)
