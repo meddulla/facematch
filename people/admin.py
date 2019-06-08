@@ -1,10 +1,17 @@
 from logging import getLogger
 from django.contrib import admin
+from django.utils.safestring import mark_safe
+from facematch.storage_backends import MissingStorage, UnidentifiedStorage
 
 from .models import MissingPerson, UnidentifiedPerson, MissingFace, UnidentifiedFace, FaceMatch
 
 
 logger = getLogger(__name__)
+
+
+def make_not_a_face(modeladmin, request, queryset):
+    queryset.update(is_face=False)
+make_not_a_face.short_description = "Mark selected faces as not a face"
 
 
 class FaceMatchInline(admin.TabularInline):
@@ -37,17 +44,27 @@ class MissingPersonAdmin(admin.ModelAdmin):
 
 class MissingFaceAdmin(admin.ModelAdmin):
     model = MissingFace
-    list_display = ('id', 'is_face', 'person', 'searched', 'last_searched')
+    list_display = ('id', 'is_face', 'person', 'searched', 'last_searched', 'photo_tag_listing')
     fields = ('person', 'photo', 'is_face', 'photo_tag', 'searched', 'last_searched')
     readonly_fields = ('photo_tag', 'searched', 'last_searched')
     list_filter = ('is_face', 'searched')
+    actions = [make_not_a_face]
+
+    def photo_tag_listing(self, obj):
+        url = "https://%s/%s" % (MissingStorage.custom_domain, obj.photo)
+        return mark_safe('<a href="%s" target="_blank"><img src="%s" width="50px" alt="%s"/></a>' % (url, url, obj.photo))
 
 class UnidentifiedFaceAdmin(admin.ModelAdmin):
     model = UnidentifiedFace
-    list_display = ('id', 'is_face', 'person')
+    list_display = ('id', 'is_face', 'person', 'photo_tag_listing')
     # fields = ('person','photo', 'is_face', 'photo_tag',)
     readonly_fields = ('id', 'photo_tag', 'in_collection', 'bounding_box', 'photo')
     list_filter = ('is_face',)
+    actions = [make_not_a_face]
+
+    def photo_tag_listing(self, obj):
+        url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, obj.photo)
+        return mark_safe('<a href="%s" target="_blank"><img src="%s" width="50px" alt="%s"/></a>' % (url, url, obj.photo))
 
 
 class FaceMatchAdmin(admin.ModelAdmin):
