@@ -34,6 +34,7 @@ class UnidentifiedPersonAdmin(admin.ModelAdmin):
     readonly_fields = ('photo_tag',)
     search_fields = ('code', )
     list_filter = ('has_case_info',)
+    change_list_template = "bo/change_list.html"
 
 
 class MissingPersonAdmin(admin.ModelAdmin):
@@ -42,6 +43,7 @@ class MissingPersonAdmin(admin.ModelAdmin):
     readonly_fields = ('photo_tag',)
     search_fields = ('code', 'has_case_info', 'name')
     list_filter = ('has_case_info',)
+    change_list_template = "bo/change_list.html"
 
     inlines = [
         FaceMatchInline,
@@ -54,6 +56,7 @@ class MissingFaceAdmin(admin.ModelAdmin):
     readonly_fields = ('photo_tag', 'searched', 'last_searched')
     list_filter = ('is_face', 'searched')
     actions = [make_not_a_face]
+    change_list_template = "bo/change_list.html"
 
     def photo_tag_listing(self, obj):
         url = "https://%s/%s" % (MissingStorage.custom_domain, obj.photo)
@@ -66,6 +69,7 @@ class UnidentifiedFaceAdmin(admin.ModelAdmin):
     readonly_fields = ('id', 'photo_tag', 'in_collection', 'bounding_box', 'photo')
     list_filter = ('is_face',)
     actions = [make_not_a_face, make_a_tattoo]
+    change_list_template = "bo/change_list.html"
 
     def photo_tag_listing(self, obj):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, obj.photo)
@@ -81,6 +85,7 @@ class FaceMatchAdmin(admin.ModelAdmin):
 
     search_fields = ('missing_person__code', 'missing_person__name')
     list_filter = ('human_verified', 'human_says_maybe', 'case_info_checked', 'case_info_matches')
+    change_list_template = "bo/change_list.html"
 
 
 
