@@ -51,6 +51,7 @@ class Command(BaseCommand):
                     try:
                         urllib.request.urlretrieve(url, local_path)
                         process_case_image(case_id=case_id, img=image_name, local_path=local_path, is_missing=False)
+                        os.remove(local_path)
                     except urllib.error.HTTPError as e:
                         logger.warning("Failed to download from %s to %s. Error: '%s'" % (url, local_path, str(e)))
                     i =+ 1
