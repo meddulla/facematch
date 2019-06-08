@@ -14,6 +14,11 @@ def make_not_a_face(modeladmin, request, queryset):
 make_not_a_face.short_description = "Mark selected faces as not a face"
 
 
+def make_a_tattoo(modeladmin, request, queryset):
+    queryset.update(object_type="tattoo")
+make_a_tattoo.short_description = "Mark selected as a tattoo"
+
+
 class FaceMatchInline(admin.TabularInline):
     model = FaceMatch
     fields = ('missing', 'missing_tag', 'unidentified', 'unidentified_tag', 'similarity', 'human_verified',
@@ -60,7 +65,7 @@ class UnidentifiedFaceAdmin(admin.ModelAdmin):
     # fields = ('person','photo', 'is_face', 'photo_tag',)
     readonly_fields = ('id', 'photo_tag', 'in_collection', 'bounding_box', 'photo')
     list_filter = ('is_face',)
-    actions = [make_not_a_face]
+    actions = [make_not_a_face, make_a_tattoo]
 
     def photo_tag_listing(self, obj):
         url = "https://%s/%s" % (UnidentifiedStorage.custom_domain, obj.photo)
