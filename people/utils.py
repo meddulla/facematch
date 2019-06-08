@@ -298,7 +298,7 @@ def sync_missing_case_info(person):
     if r.status_code != requests.codes.ok:
         logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
         person.save()
-        return
+        return person
 
     info = r.json()
     subject = info["subjectIdentification"]
@@ -337,7 +337,7 @@ def sync_unidentified_case_info(person):
     if r.status_code != requests.codes.ok:
         logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
         person.save()
-        return
+        return person
 
     info = r.json()
     subject_desc = info["subjectDescription"]
