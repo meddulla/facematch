@@ -5,13 +5,14 @@ import urllib
 import logging
 from django.core.management.base import BaseCommand
 from people.models import MissingFace
+from people.utils import process_case_image
 
 
 logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    help = "./manage.py download_missing_images"
+    help = "./manage.py download_missing_cases"
 
     def add_arguments(self, parser):
         parser.add_argument('--directory', dest="directory", help='directory') #output
@@ -19,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         directory = options["directory"] or "media/images/missing"
-        csv = options["csv"] or "missing-target-5000.csv"
+        csv = options["csv"] or "missing-target.csv"
 
         # tpl = "https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/9999/Images/68684/original"
 
@@ -34,6 +35,8 @@ class Command(BaseCommand):
                 case_id = url.split("/")[8]
                 image_id = url.split("/")[10]
                 image_name = "missing_%s_%s.jpg" % (case_id, image_id)
+
+
                 case_dir = "%s/%s" % (directory, case_id)
                 local_path = "%s/%s" % (case_dir, image_name)
                 if os.path.exists(local_path):
@@ -48,6 +51,7 @@ class Command(BaseCommand):
                     logger.info("Downloading from %s to %s" % (url, local_path))
                     try:
                         urllib.request.urlretrieve(url, local_path)
+                        process_case_image(case_id=case_id, img=image_name, local_path=local_path, is_missing=True)
                     except urllib.error.HTTPError as e:
                         logger.warning("Failed to download from %s to %s. Error: '%s'" % (url, local_path, str(e)))
                     i =+ 1

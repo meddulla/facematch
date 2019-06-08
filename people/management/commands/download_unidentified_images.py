@@ -4,6 +4,7 @@ import time
 import urllib
 import logging
 from django.core.management.base import BaseCommand
+from people.models import UnidentifiedFace
 
 
 logger = logging.getLogger(__name__)
@@ -38,6 +39,9 @@ class Command(BaseCommand):
                 local_path = "%s/%s" % (case_dir, image_name)
                 if os.path.exists(local_path):
                     logger.info("Skipped downloading from %s to %s" % (url, local_path))
+                    continue
+                elif UnidentifiedFace.objects.filter(photo=image_name).first():
+                    logger.info("Skipped downloading from %s to %s. Image exists in unidentified face." % (url, local_path))
                     continue
                 else:
                     if not os.path.exists(case_dir):
