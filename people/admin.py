@@ -15,7 +15,7 @@ make_not_a_face.short_description = "Mark selected faces as not a face"
 
 
 def make_a_tattoo(modeladmin, request, queryset):
-    queryset.update(object_type="tattoo")
+    queryset.update(object_type="tattoo", is_face=False)
 make_a_tattoo.short_description = "Mark selected as a tattoo"
 
 
