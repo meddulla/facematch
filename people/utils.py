@@ -43,19 +43,21 @@ def process_case_image(case_id, img, local_path, is_missing):
 
 def save_unidentified_case(case_id):
     person, created = UnidentifiedPerson.objects.get_or_create(code=case_id)
-    person.code = case_id
-    person.gender = "U"
-    person.save()
-    logger.info("Saved unidentified person %s. Created: %s" % (person.code, created))
+    if created or not person.est_min_age:
+        person.code = case_id
+        person.gender = "U"
+        person.save()
+        logger.info("Saved unidentified person %s. Created: %s" % (person.code, created))
     return person, created
 
 
 def save_missing_case(case_id):
     person, created = MissingPerson.objects.get_or_create(code=case_id)
-    person.code = case_id
-    person.gender = "U"
-    person.save()
-    logger.info("Saved missing person %s. Created: %s" % (person.code, created))
+    if created or not person.name:
+        person.code = case_id
+        person.gender = "U"
+        person.save()
+        logger.info("Saved missing person %s. Created: %s" % (person.code, created))
     return person, created
 
 
