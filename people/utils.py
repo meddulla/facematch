@@ -214,7 +214,7 @@ def verify_match(match):
     age_check, gender_check, ethnicity_check, death_vs_last_sighting = False, False, False, False
 
 
-    if unidentified_person.est_min_age and missing_person.missing_max_age:
+    if unidentified_person.est_max_age and missing_person.missing_min_age:
         if unidentified_person.est_max_age > missing_person.missing_min_age:
             age_check = True
         else:
