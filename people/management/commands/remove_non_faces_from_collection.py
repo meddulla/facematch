@@ -23,8 +23,8 @@ class Command(BaseCommand):
         missing_faces = MissingFace.objects.filter(is_face=False, in_collection=True)
         faces = [str(face.id) for face in missing_faces]
         if faces:
-            logger.info("Deleting missing %s faces" % len(faces))
             for group in chunker(faces, 4000):
+                logger.info("Deleting missing %s faces" % len(group))
                 rekog.delete_faces(group)
                 missing_faces.filter(id__in=group).update(in_collection=False)
                 logger.info("Updated %s unidentified faces" % len(group))
@@ -32,8 +32,8 @@ class Command(BaseCommand):
         unidentified_faces = UnidentifiedFace.objects.filter(is_face=False, in_collection=True)
         faces = [str(face.id) for face in unidentified_faces]
         if faces:
-            logger.info("Deleting unidentified %s faces" % len(faces))
             for group in chunker(faces, 4000):
+                logger.info("Deleting unidentified %s faces" % len(group))
                 rekog.delete_faces(group)
                 unidentified_faces.filter(id__in=group).update(in_collection=False)
                 logger.info("Updated %s unidentified faces" % len(group))
