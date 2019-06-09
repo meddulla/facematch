@@ -27,7 +27,7 @@ class Command(BaseCommand):
                 logger.info("Deleting missing %s faces" % len(group))
                 rekog.delete_faces(group)
                 missing_faces.filter(id__in=group).update(in_collection=False)
-                logger.info("Updated %s unidentified faces" % len(group))
+                logger.info("Updated %s missing faces" % len(group))
 
         unidentified_faces = UnidentifiedFace.objects.filter(is_face=False, in_collection=True)
         faces = [str(face.id) for face in unidentified_faces]
