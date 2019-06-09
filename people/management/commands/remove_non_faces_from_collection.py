@@ -8,6 +8,10 @@ from aws.rekognition import Collection
 logger = getLogger(__name__)
 
 
+def chunker(seq, size):
+    return (seq[pos:pos + size] for pos in range(0, len(seq), size))
+
+
 class Command(BaseCommand):
     help = "./manage.py remove_non_faces_from_collection"
 
@@ -20,16 +24,18 @@ class Command(BaseCommand):
         faces = [str(face.id) for face in missing_faces]
         if faces:
             logger.info("Deleting missing %s faces" % len(faces))
-            rekog.delete_faces(faces)
-            count, _ = missing_faces.delete()
-            logger.info("Updated %s unidentified faces" % len(missing_faces))
+            for group in chunker(faces, 4000):
+                rekog.delete_faces(group)
+                missing_faces.filter(id__in=group).update(in_collection=False)
+                logger.info("Updated %s unidentified faces" % len(group))
 
         unidentified_faces = UnidentifiedFace.objects.filter(is_face=False, in_collection=True)
         faces = [str(face.id) for face in unidentified_faces]
         if faces:
             logger.info("Deleting unidentified %s faces" % len(faces))
-            rekog.delete_faces(faces)
-            unidentified_faces.update(in_collection=False)
-            logger.info("Updated %s unidentified faces" % len(unidentified_faces))
+            for group in chunker(faces, 4000):
+                rekog.delete_faces(group)
+                unidentified_faces.filter(id__in=group).update(in_collection=False)
+                logger.info("Updated %s unidentified faces" % len(group))
 
         logger.info("Done!")
