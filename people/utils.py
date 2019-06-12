@@ -328,7 +328,10 @@ def sync_missing_case_info(person, force_sync=False):
     person.missing_max_age = subject.get("computedMissingMaxAge")
     subject_desc = info["subjectDescription"]
     person.gender = subject_desc["sex"]["name"][0]
-    person.height_from = subject_desc["heightFrom"]
+
+    if "heightFrom" in subject_desc:
+        person.height_from = subject_desc["heightFrom"]
+
     if subject_desc.get("ethnicities"):
         person.ethnicity = ", ".join([eth["name"] for eth in subject_desc.get("ethnicities")])
     if info.get("sighting"):
@@ -362,7 +365,9 @@ def sync_unidentified_case_info(person, force_sync=False):
     person.est_min_age = subject_desc.get("estimatedAgeFrom")
     person.est_max_age = subject_desc.get("estimatedAgeTo")
     person.gender = subject_desc["sex"]["name"][0]
-    person.height_from = subject_desc["heightFrom"]
+
+    if "heightFrom" in subject_desc:
+        person.height_from = subject_desc["heightFrom"]
     if subject_desc.get("ethnicities"):
         person.ethnicity = ", ".join([eth["name"] for eth in subject_desc["ethnicities"]])
     person.has_case_info = True
