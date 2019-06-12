@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        missing_persons = MissingPerson.objects.filter(case_info_fetched=False)
+        missing_persons = MissingPerson.objects.filter(case_info_fetched=False, height_from=None)
         logger.info("Processsing %s missing person cases" % len(missing_persons))
         for person in missing_persons:
             logger.info("Processsing missing person %s" % person.code)
