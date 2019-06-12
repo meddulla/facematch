@@ -36,6 +36,7 @@ class Person(models.Model):
     case_info_fetched = models.BooleanField(default=False)
     has_case_info = models.BooleanField(default=False)
     last_fetched = models.DateTimeField(default=None, null=True)
+    height_from = models.IntegerField(default=None, null=True)
 
 
     def photo_tag(self):

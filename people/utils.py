@@ -211,8 +211,9 @@ def verify_match(match):
         logger.info("No unidentified case info available")
         return
 
-    age_check, gender_check, ethnicity_check, death_vs_last_sighting = False, False, False, False
+    # Checks
 
+    age_check, gender_check, ethnicity_check, death_vs_last_sighting, height_check = None, None, None, None, None
 
     if unidentified_person.est_max_age and missing_person.missing_min_age:
         if unidentified_person.est_max_age > missing_person.missing_min_age:
@@ -230,6 +231,16 @@ def verify_match(match):
     else:
         logger.info("No gender")
 
+    if unidentified_person.height_from and missing_person.height_from:
+        diff = missing_person.height_from - unidentified_person.height_from
+        if diff < 4:
+            height_check = True
+        else:
+            match.case_info_reasons_non_match += "Height is not a match. "
+    else:
+        logger.info("No height")
+
+
     if unidentified_person.ethnicity and missing_person.ethnicity:
         if unidentified_person.ethnicity.lower().strip() in missing_person.ethnicity.lower().strip():
             ethnicity_check = True
@@ -246,11 +257,15 @@ def verify_match(match):
     else:
         logger.info("No death_vs_last_sighting")
 
-    if None not in [age_check, gender_check, ethnicity_check, death_vs_last_sighting]:
-        if age_check and gender_check and ethnicity_check and death_vs_last_sighting:
-            match.case_info_matches = True
-        else:
-            match.case_info_matches = False
+    checks = [age_check, gender_check, ethnicity_check, death_vs_last_sighting, height_check]
+    clean_checks = [check for check in checks if check is not None]
+    if clean_checks and all(clean_checks):
+        match.case_info_matches = True
+    elif False in checks:
+        match.case_info_matches = False
+    else:
+        # all None's
+        pass
 
     match.save()
     logger.info("Verified match %s of missing case %s. Reason: %s, matches: %s." % (match.id,
@@ -313,6 +328,7 @@ def sync_missing_case_info(person):
     person.missing_max_age = subject.get("computedMissingMaxAge")
     subject_desc = info["subjectDescription"]
     person.gender = subject_desc["sex"]["name"][0]
+    person.height_from = subject_desc["heightFrom"]
     if subject_desc.get("ethnicities"):
         person.ethnicity = ", ".join([eth["name"] for eth in subject_desc.get("ethnicities")])
     if info.get("sighting"):
@@ -346,6 +362,7 @@ def sync_unidentified_case_info(person):
     person.est_min_age = subject_desc.get("estimatedAgeFrom")
     person.est_max_age = subject_desc.get("estimatedAgeTo")
     person.gender = subject_desc["sex"]["name"][0]
+    person.height_from = subject_desc["heightFrom"]
     if subject_desc.get("ethnicities"):
         person.ethnicity = ", ".join([eth["name"] for eth in subject_desc["ethnicities"]])
     person.has_case_info = True
