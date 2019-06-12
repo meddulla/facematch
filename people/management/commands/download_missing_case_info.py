@@ -17,5 +17,5 @@ class Command(BaseCommand):
         logger.info("Processsing %s missing person cases" % len(missing_persons))
         for person in missing_persons:
             logger.info("Processsing missing person %s" % person.code)
-            sync_missing_case_info(person)
+            sync_missing_case_info(person, force_sync=True)
 

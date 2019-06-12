@@ -300,9 +300,9 @@ def search_face(mface, rekog):
             logger.error("Unable to save match - probably a 'missing' face. Error: '%s'" % str(e))
 
 
-def sync_missing_case_info(person):
+def sync_missing_case_info(person, force_sync=False):
     # curl -H Content-type:application/json https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/18174\?forReport\=false
-    if person.has_case_info:
+    if person.has_case_info and not force_sync:
         logger.info("Skipping syncing missing case info")
         return person
     headers = {'Content-type': 'application/json'}
@@ -339,9 +339,9 @@ def sync_missing_case_info(person):
     return person
 
 
-def sync_unidentified_case_info(person):
+def sync_unidentified_case_info(person, force_sync=False):
     # curl -H Content-type:application/json https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/18174\?forReport\=false
-    if person.has_case_info:
+    if person.has_case_info and not force_sync:
         logger.info("Skipping syncing unidentified case info")
         return person
     logger.info("Processsing unidentified person %s" % person.code)
