@@ -10,6 +10,7 @@ Find possible matches between NamUs missing and unidentified persons using Aws R
     - [X] Use case info to filter out bad matches
         - [X] on custom command
         - [X] on search command
+- [ ] tests for case match rules
 - [X] Delete face id from collection when photo is marked as a non face (lower costs).
     Done as command
 - [ ] Public (non-admin) site

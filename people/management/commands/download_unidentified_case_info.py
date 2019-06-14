@@ -14,10 +14,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         unidentified_persons = UnidentifiedPerson.objects.filter(case_info_fetched=False)
-        unidentified_persons = UnidentifiedPerson.objects.filter(height_from=None) # TODO tmp
         logger.info("Processsing %s unidentified person cases" % len(unidentified_persons))
         for person in unidentified_persons:
-            sync_unidentified_case_info(person, force_sync=True)
+            sync_unidentified_case_info(person, force_sync=False)
 
 
 
