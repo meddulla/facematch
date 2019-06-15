@@ -185,7 +185,7 @@ def verify_match(match):
 
     match.case_info_checked = True
     match.case_info_last_checked = now()
-    match.case_info_reasons_non_match = None
+    match.case_info_reasons_non_match = ""
 
     if not match.unidentified.is_face:
         match.case_info_matches = False
