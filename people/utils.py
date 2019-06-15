@@ -177,9 +177,15 @@ def process_missing_face(local_path, person, img):
 
 def verify_match(match):
     logger.info("Verifying match %s of missing case %s" % (match.id, match.missing_person.id))
+
+    if match.human_says_maybe:
+        logger.info("Human says maybe - skipping match %s of missing case %s" % (match.id, match.missing_person.id))
+        return
+
+
     match.case_info_checked = True
     match.case_info_last_checked = now()
-    match.case_info_reasons_non_match = ""
+    match.case_info_reasons_non_match = None
 
     if not match.unidentified.is_face:
         match.case_info_matches = False
@@ -220,6 +226,7 @@ def verify_match(match):
             age_check = True
         else:
             match.case_info_reasons_non_match += "Age is not a match. "
+            age_check = False
     else:
         logger.info("No age")
 
@@ -228,17 +235,21 @@ def verify_match(match):
             gender_check = True
         else:
             match.case_info_reasons_non_match += "Gender is not a match. "
+            gender_check = False
     else:
         logger.info("No gender")
 
-    if unidentified_person.height_from and missing_person.height_from:
-        diff = missing_person.height_from - unidentified_person.height_from
-        if diff < 4:
-            height_check = True
-        else:
-            match.case_info_reasons_non_match += "Height is not a match. "
-    else:
-        logger.info("No height")
+    # if unidentified_person.height_from and missing_person.height_from:
+        # subject was adult when missing, so height may have decreased if many years passed
+        # if computedMissingMinAge > 20 and last sighting
+        # diff = missing_person.height_from - unidentified_person.height_from
+        # if diff < 4: # TODO recheck
+        #     height_check = True
+        # else:
+        #     match.case_info_reasons_non_match += "Height is not a match. "
+        #     height_check = False
+    # else:
+    #     logger.info("No height")
 
 
     if unidentified_person.ethnicity and missing_person.ethnicity:
@@ -246,6 +257,7 @@ def verify_match(match):
             ethnicity_check = True
         else:
             match.case_info_reasons_non_match += "Ethnicity is not a match. "
+            ethnicity_check = False
     else:
         logger.info("No ethnicity")
 
@@ -254,6 +266,7 @@ def verify_match(match):
             death_vs_last_sighting = True
         else:
             match.case_info_reasons_non_match += "Last sighting after date of death. "
+            death_vs_last_sighting = False
     else:
         logger.info("No death_vs_last_sighting")
 
