@@ -21,7 +21,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         directory = options["directory"] or "media/images/unidentified"
-        csv = options["csv"] or "unidentified-source.csv"
+        csv = options["csv"] or "unidentified-source-2.csv"
 
         # tpl = "https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/9999/Images/68684/original"
 
@@ -33,6 +33,8 @@ class Command(BaseCommand):
                     logger.info("Sleeping for 10s")
                     time.sleep(10)
                 url = url.strip()
+                if "https://www.namus.gov" not in url:
+                    url = "https://www.namus.gov" + url
                 case_id = url.split("/")[8]
                 image_id = url.split("/")[10]
                 image_name = "unidentified_%s_%s.jpg" % (case_id, image_id)
