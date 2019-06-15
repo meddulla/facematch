@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        matches = FaceMatch.objects.filter(case_info_checked=True, human_says_maybe=False)
+        matches = FaceMatch.objects.filter(human_verified=False, human_says_maybe=False)
         logger.info("Verifying %s matches" % len(matches))
         for match in matches:
             verify_match(match)
