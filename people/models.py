@@ -165,6 +165,9 @@ class FaceMatch(models.Model):
     case_info_matches = models.BooleanField(default=False)
     case_info_reasons_non_match = models.TextField(default=None, null=True)
 
+    def missing_person_last_sighted(self):
+        return self.missing_person.last_sighted
+
     def missing_tag(self):
         return self.missing.photo_tag()
 
