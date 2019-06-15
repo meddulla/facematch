@@ -178,8 +178,8 @@ def process_missing_face(local_path, person, img):
 def verify_match(match):
     logger.info("Verifying match %s of missing case %s" % (match.id, match.missing_person.id))
 
-    if match.human_says_maybe:
-        logger.info("Human says maybe - skipping match %s of missing case %s" % (match.id, match.missing_person.id))
+    if match.human_says_maybe or match.human_verified:
+        logger.info("Human says maybe or human_verified - skipping match %s of missing case %s" % (match.id, match.missing_person.id))
         return
 
 
