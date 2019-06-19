@@ -1,0 +1,228 @@
+{
+  "id": 9564,
+  "idFormatted": "MP9564",
+  "publicationStatus": {
+    "id": 1,
+    "name": "Published",
+    "localizedName": "Published"
+  },
+  "createdDateTime": "2011-02-24T13:06:32",
+  "modifiedDateTime": "2016-03-04T09:24:26",
+  "subjectIdentification": {
+    "id": 11675,
+    "firstName": "Maximino",
+    "lastName": "Casteneda",
+    "nicknames": "El Hefe",
+    "currentMinAge": 50,
+    "currentMaxAge": 50,
+    "computedMissingMinAge": 30,
+    "computedMissingMaxAge": 30
+  },
+  "subjectDescription": {
+    "id": 10951,
+    "heightFrom": 69,
+    "weightFrom": 200,
+    "ethnicities": [{
+      "id": 3,
+      "name": "Hispanic / Latino",
+      "localizedName": "Hispanic / Latino"
+    }],
+    "sex": {
+      "id": 1,
+      "name": "Male",
+      "localizedName": "Male"
+    },
+    "tribeAssociations": []
+  },
+  "caseIdentification": {
+    "id": 7233
+  },
+  "caseIsResolved": false,
+  "hasPendingByNcmec": false,
+  "hasNcmecContributors": false,
+  "circumstances": {
+    "id": 11953,
+    "circumstancesOfDisappearance": "Casteneda drove to Tijuana with his friend Robert Delgado on 6/29/99. Three days later Delgado's vehicle was found in Tijuana, unoccupied. Casteneda's sister learned that Delgado's body was found, and he had been tortured. Maximino has not been located and his family has not heard from him."
+  },
+  "notes": [],
+  "clothingAndAccessoriesArticles": [{
+    "id": 14542,
+    "identityId": 9133,
+    "article": {
+      "id": 2,
+      "name": "Clothing",
+      "localizedName": "Clothing",
+      "ordinal": 2
+    },
+    "description": "blue Levis, green shirt"
+  }],
+  "sighting": {
+    "id": 11214,
+    "date": "1999-08-04",
+    "city": "San Ysidro",
+    "state": "California",
+    "stateDisplayName": "CA",
+    "county": "San Diego County",
+    "countyDisplayName": "San Diego",
+    "publicGeolocation": {
+      "coordinates": {
+        "lat": 32.555556,
+        "lon": -117.0470434
+      },
+      "formattedAddress": "San Ysidro, San Diego, CA, USA"
+    }
+  },
+  "vehicles": [],
+  "investigatingAgencies": [{
+    "id": 9728,
+    "name": "San Diego Police Dept.",
+    "city": "San Diego",
+    "state": {
+      "id": 3,
+      "name": "California",
+      "localizedName": "CA"
+    },
+    "properties": {
+      "id": 18402,
+      "contact": {
+        "firstName": "Brianda",
+        "lastName": "Zendejas",
+        "jobTitle": "Officer",
+        "isPublicEmail": false,
+        "isPublicPhone1": false,
+        "isPublicPhone2": false
+      },
+      "agency": {
+        "name": "San Diego Police Dept.",
+        "street1": "1401 Broadway",
+        "city": "San Diego",
+        "zipCode": "92101",
+        "state": {
+          "id": 3,
+          "name": "California",
+          "localizedName": "CA"
+        },
+        "phone": "6195312277",
+        "jurisdiction": {
+          "id": 4,
+          "name": "Local",
+          "localizedName": "Local"
+        },
+        "approved": true
+      }
+    },
+    "caseNumber": "00-018460",
+    "dateReported": "1999-08-04"
+  }],
+  "caseContributors": [{
+    "id": 85255,
+    "identityId": 78705,
+    "isPublic": true,
+    "user": {
+      "id": 4349,
+      "firstName": "Brianda",
+      "lastName": "Zendejas",
+      "jobTitle": "Police Investigative Service Officer",
+      "roleId": 1,
+      "role": "Law Enforcement",
+      "isPublicEmail": false,
+      "isPublicPhone1": false,
+      "isPublicPhone2": false
+    },
+    "agency": {
+      "id": 43441,
+      "name": "San Diego Police Department",
+      "street1": "1401 Broadway",
+      "city": "San Diego",
+      "county": {
+        "id": 283,
+        "name": "San Diego County",
+        "localizedName": "San Diego"
+      },
+      "zipCode": "92101",
+      "state": {
+        "id": 3,
+        "name": "California",
+        "localizedName": "CA"
+      },
+      "phone": "6195312000",
+      "approved": true,
+      "websiteUrl": "https://www.sandiego.gov/police"
+    }
+  }],
+  "caseOwner": {
+    "id": 8089,
+    "investigatingAgencyIdentityId": 9728
+  },
+  "currentUserIsTracking": false,
+  "physicalDescription": {
+    "id": 10155,
+    "hairColor": {
+      "id": 1,
+      "name": "Brown",
+      "localizedName": "Brown"
+    },
+    "facialHairDescription": "mustache",
+    "leftEyeColor": {
+      "id": 1,
+      "name": "Black",
+      "localizedName": "Black"
+    },
+    "rightEyeColor": {
+      "id": 1,
+      "name": "Black",
+      "localizedName": "Black"
+    }
+  },
+  "physicalFeatureDescriptions": [{
+    "id": 13704,
+    "identityId": 12312,
+    "physicalFeature": {
+      "id": 6,
+      "name": "Scar/mark",
+      "localizedName": "Scar/mark",
+      "ordinal": 6
+    },
+    "description": "scar on chest"
+  }],
+  "images": [{
+    "id": 23590,
+    "identityId": 22178,
+    "category": {
+      "canBeDefault": true,
+      "canBePublic": true,
+      "id": 1,
+      "name": "FacialCaseId",
+      "localizedName": "Facial/case ID",
+      "ordinal": 10
+    },
+    "caption": "Maximino Casteneda 1997",
+    "isPublic": true,
+    "createdDateTime": "2011-02-24T14:20:07",
+    "files": {
+      "original": {
+        "mimeType": "image/jpg",
+        "height": 1182,
+        "width": 961,
+        "href": "/api/CaseSets/NamUs/MissingPersons/Cases/9564/Images/22178/Original"
+      },
+      "thumbnail": {
+        "mimeType": "image/jpg",
+        "height": 120,
+        "width": 98,
+        "href": "/api/CaseSets/NamUs/MissingPersons/Cases/9564/Images/22178/Thumbnail"
+      }
+    },
+    "hrefDownload": "/api/CaseSets/NamUs/MissingPersons/Cases/9564/Images/22178/Download"
+  }],
+  "defaultImage": {
+    "id": 6755,
+    "defaultImageIdentityId": 22178
+  },
+  "documents": [],
+  "viewPermission": "public",
+  "hrefDefaultImageThumbnail": "/api/CaseSets/NamUs/MissingPersons/Cases/9564/Images/Default/Thumbnail",
+  "hrefDefaultImagePoster": "/api/CaseSets/NamUs/MissingPersons/Cases/9564/Images/Default/Poster",
+  "hrefQRCode": "/api/CaseSets/NamUs/MissingPersons/Cases/9564/Images/QRCode",
+  "hrefGetRsaInformation": "/api/CaseSets/NamUs/Users/Rsa/California"
+}

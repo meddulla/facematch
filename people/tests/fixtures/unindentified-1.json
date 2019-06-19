@@ -1,0 +1,341 @@
+{
+  "id": 100,
+  "idFormatted": "UP100",
+  "publicationStatus": {
+    "id": 1,
+    "name": "Published",
+    "localizedName": "Published"
+  },
+  "createdDateTime": "2007-06-30T00:00:00",
+  "modifiedDateTime": "2018-02-26T14:26:03",
+  "caseIdentification": {
+    "id": 981,
+    "caseNumber": "89F-37"
+  },
+  "caseIsResolved": false,
+  "subjectDescription": {
+    "id": 1647,
+    "sex": {
+      "id": 2,
+      "name": "Female",
+      "localizedName": "Female"
+    },
+    "ethnicities": [{
+      "id": 7,
+      "name": "Other",
+      "localizedName": "Other"
+    }],
+    "estimatedAgeGroup": {
+      "id": 4,
+      "name": "PreAdolescent",
+      "localizedName": "PreAdolescent"
+    },
+    "estimatedAgeFrom": 2,
+    "estimatedAgeTo": 3,
+    "estimatedYearOfDeathFrom": 1989,
+    "estimatedYearOfBirthFrom": 1986,
+    "estimatedYearOfBirthTo": 1987,
+    "estimatedPostmortemIntervalUnit": {
+      "id": 5,
+      "name": "Months",
+      "localizedName": "Months"
+    },
+    "heightCertainty": {
+      "id": 1,
+      "name": "Cannot Estimate",
+      "localizedName": "Cannot Estimate"
+    },
+    "weightCertainty": {
+      "id": 1,
+      "name": "Cannot Estimate",
+      "localizedName": "Cannot Estimate"
+    }
+  },
+  "circumstances": {
+    "id": 1253,
+    "status": {
+      "id": 1,
+      "name": "Unidentified Deceased",
+      "localizedName": "Unidentified Deceased"
+    },
+    "dateFound": "1989-08-08",
+    "locationFoundSpecificity": "Address",
+    "address1": "Edge of Barren River Lake",
+    "city": "Glasgow",
+    "state": "Kentucky",
+    "stateDisplayName": "KY",
+    "county": "Barren County",
+    "countyDisplayName": "Barren",
+    "circumstancesOfRecovery": "Body was found inside a blue suitcase on the shore along Barren River Lake in Glasgow. The child had been deceased for several months.",
+    "geolocation": {
+      "coordinates": {
+        "lat": 36.8713928,
+        "lon": -86.0962783
+      },
+      "formattedAddress": "Barren River Lake, Kentucky, USA"
+    }
+  },
+  "detailsOfRecovery": {
+    "id": 19878,
+    "conditionOfRemains": {
+      "id": 7,
+      "name": "Not recognizable - Near complete or complete skeleton",
+      "localizedName": "Not recognizable - Near complete or complete skeleton"
+    }
+  },
+  "notes": [],
+  "clothingAndAccessoriesArticles": [],
+  "physicalFeatureDescriptions": [],
+  "images": [{
+    "id": 2054,
+    "identityId": 1767,
+    "category": {
+      "canBeDefault": true,
+      "canBePublic": true,
+      "id": 1,
+      "name": "FacialCaseId",
+      "localizedName": "Facial/case ID",
+      "ordinal": 10
+    },
+    "caption": "CT scan based reconstruction",
+    "isPublic": true,
+    "createdDateTime": "2014-01-08T13:48:47",
+    "files": {
+      "original": {
+        "mimeType": "image/jpg",
+        "height": 1200,
+        "width": 1920,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1767/Original"
+      },
+      "thumbnail": {
+        "mimeType": "image/jpg",
+        "height": 75,
+        "width": 120,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1767/Thumbnail"
+      }
+    },
+    "hrefDownload": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1767/Download"
+  }, {
+    "id": 2055,
+    "identityId": 1768,
+    "category": {
+      "canBeDefault": true,
+      "canBePublic": true,
+      "id": 1,
+      "name": "FacialCaseId",
+      "localizedName": "Facial/case ID",
+      "ordinal": 10
+    },
+    "isPublic": true,
+    "createdDateTime": "2014-01-08T13:49:32",
+    "files": {
+      "original": {
+        "mimeType": "image/jpg",
+        "height": 1200,
+        "width": 1920,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1768/Original"
+      },
+      "thumbnail": {
+        "mimeType": "image/jpg",
+        "height": 75,
+        "width": 120,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1768/Thumbnail"
+      }
+    },
+    "hrefDownload": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1768/Download"
+  }, {
+    "id": 2056,
+    "identityId": 1769,
+    "category": {
+      "canBeDefault": true,
+      "canBePublic": true,
+      "id": 1,
+      "name": "FacialCaseId",
+      "localizedName": "Facial/case ID",
+      "ordinal": 10
+    },
+    "isPublic": true,
+    "createdDateTime": "2014-01-08T13:52:44",
+    "files": {
+      "original": {
+        "mimeType": "image/jpg",
+        "height": 1200,
+        "width": 1920,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1769/Original"
+      },
+      "thumbnail": {
+        "mimeType": "image/jpg",
+        "height": 75,
+        "width": 120,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1769/Thumbnail"
+      }
+    },
+    "hrefDownload": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1769/Download"
+  }, {
+    "id": 2050,
+    "identityId": 1765,
+    "category": {
+      "canBeDefault": false,
+      "canBePublic": true,
+      "id": 21,
+      "name": "Other",
+      "localizedName": "Other",
+      "ordinal": 210
+    },
+    "caption": "Suitcase containing child's skeleton found in Barren River Lake.",
+    "isPublic": true,
+    "createdDateTime": "2009-10-18T11:50:07",
+    "files": {
+      "original": {
+        "mimeType": "image/jpg",
+        "height": 932,
+        "width": 1300,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1765/Original"
+      },
+      "thumbnail": {
+        "mimeType": "image/jpg",
+        "height": 86,
+        "width": 120,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1765/Thumbnail"
+      }
+    },
+    "hrefDownload": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1765/Download"
+  }, {
+    "id": 2052,
+    "identityId": 1766,
+    "category": {
+      "canBeDefault": false,
+      "canBePublic": true,
+      "id": 21,
+      "name": "Other",
+      "localizedName": "Other",
+      "ordinal": 210
+    },
+    "caption": "Suitcase containing skeletonized child.",
+    "isPublic": true,
+    "createdDateTime": "2009-10-18T11:50:07",
+    "files": {
+      "original": {
+        "mimeType": "image/jpg",
+        "height": 550,
+        "width": 824,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1766/Original"
+      },
+      "thumbnail": {
+        "mimeType": "image/jpg",
+        "height": 80,
+        "width": 120,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1766/Thumbnail"
+      }
+    },
+    "hrefDownload": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1766/Download"
+  }, {
+    "id": 2057,
+    "identityId": 1770,
+    "category": {
+      "canBeDefault": true,
+      "canBePublic": true,
+      "id": 23,
+      "name": "ArtistRendering",
+      "localizedName": "Artist rendering",
+      "ordinal": 230
+    },
+    "caption": "Image as a female",
+    "isPublic": true,
+    "createdDateTime": "2018-02-26T14:26:02",
+    "files": {
+      "original": {
+        "mimeType": "image/jpg",
+        "height": 170,
+        "width": 146,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1770/Original"
+      },
+      "thumbnail": {
+        "mimeType": "image/jpg",
+        "height": 120,
+        "width": 103,
+        "href": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1770/Thumbnail"
+      }
+    },
+    "hrefDownload": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/1770/Download"
+  }],
+  "defaultImage": {
+    "id": 337,
+    "defaultImageIdentityId": 1767
+  },
+  "documents": [],
+  "investigatingAgencies": [{
+    "id": 804,
+    "name": "Kentucky State Police",
+    "city": "Bowling Green",
+    "state": {
+      "id": 11,
+      "name": "Kentucky",
+      "localizedName": "KY"
+    },
+    "properties": {
+      "id": 1130,
+      "contact": {
+        "firstName": "Laura",
+        "lastName": "Isenberg",
+        "jobTitle": "Det.",
+        "isPublicEmail": false,
+        "isPublicPhone1": false,
+        "isPublicPhone2": false
+      },
+      "agency": {
+        "name": "Kentucky State Police",
+        "city": "Bowling Green",
+        "zipCode": "42102-0068",
+        "state": {
+          "id": 11,
+          "name": "Kentucky",
+          "localizedName": "KY"
+        },
+        "approved": true
+      }
+    },
+    "caseNumber": "03-89-1307",
+    "dateReported": "1989-08-20"
+  }],
+  "caseContributors": [{
+    "id": 24192,
+    "identityId": 5035,
+    "isPublic": true,
+    "user": {
+      "id": 2249,
+      "firstName": "Amy",
+      "lastName": "Burrows-Beckham",
+      "jobTitle": "Medical Examier",
+      "roleId": 3,
+      "role": "Medicolegal Death Investigator",
+      "isPublicEmail": false,
+      "isPublicPhone1": false,
+      "isPublicPhone2": false
+    },
+    "agency": {
+      "id": 13107,
+      "name": "Kentucky Medical Examiner's Office",
+      "street1": "10511 LaGrange Road, Bingham Building 1st floor",
+      "city": "Louisville",
+      "county": {
+        "id": 1088,
+        "name": "Fayette County",
+        "localizedName": "Fayette"
+      },
+      "zipCode": "40223",
+      "state": {
+        "id": 11,
+        "name": "Kentucky",
+        "localizedName": "KY"
+      },
+      "phone": "5024895209",
+      "approved": true
+    }
+  }],
+  "currentUserIsTracking": false,
+  "viewPermission": "public",
+  "hrefDefaultImageThumbnail": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/Default/Thumbnail",
+  "hrefDefaultImagePoster": "/api/CaseSets/NamUs/UnidentifiedPersons/Cases/100/Images/Default/Poster",
+  "hrefGetRsaInformation": "/api/CaseSets/NamUs/Users/Rsa/Kentucky"
+}

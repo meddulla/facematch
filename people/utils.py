@@ -217,15 +217,32 @@ def verify_match(match):
         logger.info("No unidentified case info available")
         return
 
-    # Checks
+    # Case Checks
+    matches, reasons_non_match = case_checks(missing_person, unidentified_person)
 
+    if matches is not None:
+        match.case_info_matches = matches
+        assert not reasons_non_match, "reasons non match not empty"
+    if reasons_non_match:
+        match.case_info_reasons_non_match = "".join(reasons_non_match)
+        assert not matches, "matches but there are reasons not to match"
+
+    match.save()
+    logger.info("Verified match %s of missing case %s. Reason: %s, matches: %s." % (match.id,
+                                                                                    match.missing_person.id,
+                                                                                    match.case_info_reasons_non_match,
+                                                                                    match.case_info_matches))
+
+def case_checks(missing_person, unidentified_person):
+    matches = None
+    reasons_non_match = []
     age_check, gender_check, ethnicity_check, death_vs_last_sighting, height_check = None, None, None, None, None
 
     if unidentified_person.est_max_age and missing_person.missing_min_age:
         if unidentified_person.est_max_age > missing_person.missing_min_age:
             age_check = True
         else:
-            match.case_info_reasons_non_match += "Age is not a match. "
+            reasons_non_match.append("Age is not a match. ")
             age_check = False
     else:
         logger.info("No age")
@@ -234,20 +251,20 @@ def verify_match(match):
         if unidentified_person.gender == missing_person.gender:
             gender_check = True
         else:
-            match.case_info_reasons_non_match += "Gender is not a match. "
+            reasons_non_match.append("Gender is not a match. ")
             gender_check = False
     else:
         logger.info("No gender")
 
     # if unidentified_person.height_from and missing_person.height_from:
-        # subject was adult when missing, so height may have decreased if many years passed
-        # if computedMissingMinAge > 20 and last sighting
-        # diff = missing_person.height_from - unidentified_person.height_from
-        # if diff < 4: # TODO recheck
-        #     height_check = True
-        # else:
-        #     match.case_info_reasons_non_match += "Height is not a match. "
-        #     height_check = False
+    # subject was adult when missing, so height may have decreased if many years passed
+    # if computedMissingMinAge > 20 and last sighting
+    # diff = missing_person.height_from - unidentified_person.height_from
+    # if diff < 4: # TODO recheck
+    #     height_check = True
+    # else:
+    #     match.case_info_reasons_non_match += "Height is not a match. "
+    #     height_check = False
     # else:
     #     logger.info("No height")
 
@@ -256,7 +273,7 @@ def verify_match(match):
         if unidentified_person.ethnicity.lower().strip() in missing_person.ethnicity.lower().strip():
             ethnicity_check = True
         else:
-            match.case_info_reasons_non_match += "Ethnicity is not a match. "
+            reasons_non_match.append("Ethnicity is not a match. ")
             ethnicity_check = False
     else:
         logger.info("No ethnicity")
@@ -265,7 +282,7 @@ def verify_match(match):
         if missing_person.last_sighted < unidentified_person.date_found:
             death_vs_last_sighting = True
         else:
-            match.case_info_reasons_non_match += "Last sighting after date of death. "
+            reasons_non_match.append("Last sighting after date of death. ")
             death_vs_last_sighting = False
     else:
         logger.info("No death_vs_last_sighting")
@@ -273,18 +290,14 @@ def verify_match(match):
     checks = [age_check, gender_check, ethnicity_check, death_vs_last_sighting, height_check]
     clean_checks = [check for check in checks if check is not None]
     if clean_checks and all(clean_checks):
-        match.case_info_matches = True
+        matches = True
     elif False in checks:
-        match.case_info_matches = False
+        matches = False
     else:
         # all None's
         pass
+    return matches, reasons_non_match
 
-    match.save()
-    logger.info("Verified match %s of missing case %s. Reason: %s, matches: %s." % (match.id,
-                                                                                    match.missing_person.id,
-                                                                                    match.case_info_reasons_non_match,
-                                                                                    match.case_info_matches))
 
 def search_face(mface, rekog):
     logger.info("Processsing missing face %s" % mface.id)
@@ -313,24 +326,26 @@ def search_face(mface, rekog):
             logger.error("Unable to save match - probably a 'missing' face. Error: '%s'" % str(e))
 
 
-def sync_missing_case_info(person, force_sync=False):
+def sync_missing_case_info(person, force_sync=False, info=False):
     # curl -H Content-type:application/json https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/18174\?forReport\=false
     if person.has_case_info and not force_sync:
         logger.info("Skipping syncing missing case info")
         return person
-    headers = {'Content-type': 'application/json'}
-    url = 'https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/{case_id}?forReport=false'.format(case_id=person.code)
-    r = requests.get(url, headers=headers)
+    if not info:
+        headers = {'Content-type': 'application/json'}
+        url = 'https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/{case_id}?forReport=false'.format(case_id=person.code)
+        r = requests.get(url, headers=headers)
 
-    person.case_info_fetched = True
-    person.last_fetched = now()
+        person.case_info_fetched = True
+        person.last_fetched = now()
 
-    if r.status_code != requests.codes.ok:
-        logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
-        person.save()
-        return person
+        if r.status_code != requests.codes.ok:
+            logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
+            person.save()
+            return person
 
-    info = r.json()
+        info = r.json()
+
     subject = info["subjectIdentification"]
     person.name = " ".join([subject.get("firstName", "").capitalize(),
                             subject.get("middleName", "").capitalize(),
@@ -355,25 +370,26 @@ def sync_missing_case_info(person, force_sync=False):
     return person
 
 
-def sync_unidentified_case_info(person, force_sync=False):
+def sync_unidentified_case_info(person, force_sync=False, info=False):
     # curl -H Content-type:application/json https://www.namus.gov/api/CaseSets/NamUs/MissingPersons/Cases/18174\?forReport\=false
     if person.has_case_info and not force_sync:
         logger.info("Skipping syncing unidentified case info")
         return person
     logger.info("Processsing unidentified person %s" % person.code)
-    headers = {'Content-type': 'application/json'}
-    url = 'https://www.namus.gov/api/CaseSets/NamUs/UnidentifiedPersons/Cases/{case_id}?forReport=false'.format(case_id=person.code)
-    r = requests.get(url, headers=headers)
+    if not info:
+        headers = {'Content-type': 'application/json'}
+        url = 'https://www.namus.gov/api/CaseSets/NamUs/UnidentifiedPersons/Cases/{case_id}?forReport=false'.format(case_id=person.code)
+        r = requests.get(url, headers=headers)
 
-    person.case_info_fetched = True
-    person.last_fetched = now()
+        person.case_info_fetched = True
+        person.last_fetched = now()
 
-    if r.status_code != requests.codes.ok:
-        logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
-        person.save()
-        return person
+        if r.status_code != requests.codes.ok:
+            logger.info("Unable to fetch case info %s. Status code: %s" % (person.code, r.status_code))
+            person.save()
+            return person
 
-    info = r.json()
+        info = r.json()
     subject_desc = info["subjectDescription"]
     person.est_min_age = subject_desc.get("estimatedAgeFrom")
     person.est_max_age = subject_desc.get("estimatedAgeTo")
